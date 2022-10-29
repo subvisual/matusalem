@@ -87,7 +87,7 @@ defmodule Genetic do
     best = hd(population)
     best_fitness = best.fitness
 
-    IO.write("\rCurrent Best: #{best_fitness}")
+    # IO.write("\rCurrent Best: #{best_fitness}")
 
     if problem.terminate?(population, generation) do
       best
@@ -306,7 +306,7 @@ defmodule Cargo do
     (portfolio_returns - risk_free_return) / portfolio_st_deviation
   end
 
-  def terminate?(_population, generation), do: generation == 100_000
+  def terminate?(_population, generation), do: generation == 10_000
 
   defp portfolio_returns(avg_returns, genes) do
     avg_returns
@@ -360,7 +360,7 @@ defmodule Cargo do
   end
 end
 
-soln = Genetic.run(Cargo, population_size: 200)
+soln = Genetic.run(Cargo, population_size: 100)
 
 IO.write("\n")
 IO.inspect(soln)
