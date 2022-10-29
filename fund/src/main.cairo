@@ -15,6 +15,10 @@ struct Proposal {
 }
 
 @storage_var
+func active_strategy() -> (res: felt) {
+}
+
+@storage_var
 func ethereum_token() -> (res: felt) {
 }
 
@@ -30,8 +34,16 @@ func allow_list() -> (res: felt) {
 func proposal_list(strategy_id: felt) -> (proposal: Proposal) {
 }
 
+@storage_var
+func proposal_counter() -> (res: felt) {
+}
+
 @event
 func deposited(depositor_address: felt, amount: Uint256) {
+}
+
+@event
+func new_proposal(proposal_id: felt, depositor_address: felt, amount: Uint256) {
 }
 
 @external
@@ -54,9 +66,19 @@ func monthly_deposit{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
 func create_proposal{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
     strategy_id: felt
 ) {
+    let (prop_counter) = proposal_counter.read();
     let proposal = Proposal(strategy_id=strategy_id, vote_list=(0, 0, 0, 0, 0, 0, 0, 0));
-    proposal_list.write(strategy_id, proposal);
+    let proposal_id = prop_counter + 1;
+
+    proposal_list.write(proposal_id, proposal);
+    proposal_counter.write(proposal_id);
+
     return ();
+}
+
+@external
+func vote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr} () {
+  return ();
 }
 
 @external
@@ -88,9 +110,9 @@ func get_ethereum_token_address{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, 
 
 @view
 func get_proposal{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashBuiltin*}(
-    strat_id: felt
+    prop_id: felt
 ) -> (prop: Proposal) {
-    let (proposal) = proposal_list.read(strat_id);
+    let (proposal) = proposal_list.read(prop_id);
     return (proposal,);
 }
 
