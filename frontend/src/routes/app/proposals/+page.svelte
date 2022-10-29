@@ -4,6 +4,7 @@
   import Card from "$lib/components/Card.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
   import { proposals } from "./proposalsMock";
+  import MetaMaskConnect from "$lib/components/MetaMaskConnect.svelte";
 
   // move function
   export const handleVote = (ev: MouseEvent, id: string, voted: boolean) => {
@@ -18,11 +19,15 @@
 </script>
 
 <div class="flex items-start justify-between">
-  <h2 class="mb-10">Proposals</h2>
+  <h2>Proposals</h2>
   <Button color="lightGreen">
     <NewIcon slot="leftIcon" />
     <h4 class="uppercase">Add Proposal</h4>
   </Button>
+</div>
+
+<div class="my-6">
+  <MetaMaskConnect />
 </div>
 
 <div class="flex flex-col gap-5">
