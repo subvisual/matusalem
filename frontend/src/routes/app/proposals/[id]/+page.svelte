@@ -3,21 +3,16 @@
   import Button from "$lib/components/Button.svelte";
   import ReturnArrow from "$lib/components/icons/ReturnArrow.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
+  import { account } from "$lib/svark";
+  import truncateAddress from "$lib/utils/truncateAddress";
 
-  export let data;
-  const {
-    proposal: {
-      author,
-      title,
-      status,
-      voted,
-      createdAt,
-      endsAt,
-      totalVotes,
-      summary,
-      abstract,
-    },
-  } = data;
+  export let data: any;
+
+  const { proposal } = data;
+
+  async function vote() {
+    await account.sign("Vote for this");
+  }
 </script>
 
 <Button
@@ -33,42 +28,41 @@
 </Button>
 <div class="flex justify-between gap-8">
   <article>
-    <h2 class="mb-2">{title}</h2>
+    <h2 class="mb-2">Proposal #{proposal.id}</h2>
     <div class="flex justify-between mb-14">
-      <p>{author}</p>
-      <div class="w-32 bg-{status === 'active' ? 'lightGreen' : 'orange'}">
-        <h4 class="text-center">{status}</h4>
+      <p>{truncateAddress(proposal.submittedBy)}</p>
+      <div class="w-32 bg-lightGreen">
+        <h4 class="text-center">active</h4>
       </div>
     </div>
     <div class="mb-10">
       <h4>Summary</h4>
-      <p>{summary}</p>
+      <p>A really good proposal</p>
     </div>
     <div>
       <h4>Abstract</h4>
-      <p>{abstract}</p>
+      <p>Yes</p>
     </div>
   </article>
-  <Card color={status === "active" ? "white" : "lightGrey"}>
+  <Card color="black">
     <div class="flex flex-col gap-4 items-center">
       <Button
-        disabled={status !== "active"}
         class="py-2 w-32 flex justify-start gap-4 mb-3"
-        color={voted ? "lightGreen" : "white"}
-        on:click={() => console.log("click")}
+        color="white"
+        on:click={vote}
       >
         <Hand
           class="w-5 h-8"
           slot="leftIcon"
         />
-        <h4 class="uppercase">{voted ? "Voted" : "Vote"}</h4>
+        <h4 class="uppercase">Vote</h4>
       </Button>
-      <!-- {/key} -->
-      <p class="text-14 font-bold whitespace-nowrap">Created at: {createdAt}</p>
+
+      <!-- <p class="text-14 font-bold whitespace-nowrap">Created at: {createdAt}</p>
       <p class="text-14 font-bold whitespace-nowrap">Ends at: {endsAt}</p>
       <p class="text-14 font-bold whitespace-nowrap"
         >Total votes: {totalVotes}</p
-      >
+      > -->
     </div>
   </Card>
 </div>
