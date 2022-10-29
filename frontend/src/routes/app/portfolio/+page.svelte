@@ -1,12 +1,8 @@
 <script lang="ts">
-  import { Chart, registerables } from "chart.js";
-  import { onMount } from "svelte";
-  import { browser } from "$app/environment";
-  import portfolioData from "$lib/data/portfolio.json";
   import DoughnutChart from "$lib/components/DoughnutChart.svelte";
   import LineChart from "$lib/components/LineChart.svelte";
   import Table from "$lib/components/Table.svelte";
-  import truncateAddress from "$lib/utils/truncateAddress";
+  import portfolioData from "$lib/data/portfolio.json";
 
   const assets = {
     title: "Asset allocation",
@@ -44,7 +40,7 @@
 
 <div class="w-[30rem] mx-auto mb-10">
   <h3 class="text-center mb-4">Asset allocation</h3>
-  <DoughnutChart {...assets} />
+  <DoughnutChart {...assets}><div>H</div></DoughnutChart>
 </div>
 
 <div class="w-fit mx-auto mb-10">
@@ -52,8 +48,8 @@
   <Table
     color="lightPurple"
     labels={["Timestamp", "Transaction Hash", "Amount"]}
-    rows={portfolioData.deposits.map(
-      ({ timestamp, transaction_hash: hash, amount }) => [
+    rows={portfolioData.deposits
+      .map(({ timestamp, transaction_hash: hash, amount }) => [
         new Date(timestamp).toLocaleDateString("en-UK", {
           day: "numeric",
           month: "numeric",
@@ -61,8 +57,8 @@
         }),
         hash,
         String(amount).concat(" ETH"),
-      ]
-    )}
+      ])
+      .reverse()}
   />
 </div>
 
