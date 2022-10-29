@@ -118,7 +118,7 @@ defmodule Cargo do
   end
 
   defp genotype_randomizer(genes) do
-    seed = Enum.random(0..50)
+    seed = Enum.random(0..40)
     new_gene = Enum.random(0..seed)
     gene_position = Enum.random(0..(length(genes) - 1))
     old_gene = Enum.at(genes, gene_position)
@@ -137,18 +137,18 @@ defmodule Cargo do
   def fitness_function(chromosome) do
     risk_free_return = 0.04
 
-    st_deviation = [
-      0.00001,
-      0.00641,
-      0.00411,
-      0.00749,
-      0.00861,
-      0.00587,
-      0.00598,
-      0.00778,
-      0.00660,
-      0.01923,
-      0.02266
+    st_deviations = [
+      0,
+      0.000450,
+      0.921200,
+      0.108631,
+      0.000468,
+      0.002878,
+      0.000053,
+      0.000086,
+      0.000006,
+      0.000666,
+      0.001085
     ]
 
     avg_returns = [
@@ -301,7 +301,7 @@ defmodule Cargo do
 
     portfolio_returns = portfolio_returns(avg_returns, chromosome.genes)
 
-    portfolio_st_deviation = portfolio_st_deviation(st_deviation, correlations, chromosome.genes)
+    portfolio_st_deviation = portfolio_st_deviation(st_deviations, correlations, chromosome.genes)
 
     (portfolio_returns - risk_free_return) / portfolio_st_deviation
   end
@@ -315,7 +315,7 @@ defmodule Cargo do
     |> Enum.sum()
   end
 
-  defp portfolio_st_deviation(st_deviation, correlations, genes) do
+  defp portfolio_st_deviation(st_deviations, correlations, genes) do
     assets = [
       :eth,
       :uniswap,
@@ -331,8 +331,8 @@ defmodule Cargo do
     ]
 
     part1 =
-      genes
-      |> Enum.zip(st_deviation)
+      st_deviations
+      |> Enum.zip(genes)
       |> Enum.map(fn {p, g} -> p ** 2 * (g / 100) ** 2 end)
       |> Enum.sum()
 
@@ -346,8 +346,8 @@ defmodule Cargo do
           |> Enum.map(fn {corr, index} ->
             weight1 = Enum.at(genes, asset_index)
             weight2 = Enum.at(genes, index)
-            std1 = Enum.at(st_deviation, asset_index)
-            std2 = Enum.at(st_deviation, index)
+            std1 = Enum.at(st_deviations, asset_index)
+            std2 = Enum.at(st_deviations, index)
 
             2 * weight1 * weight2 * corr * std1 * std2
           end)
@@ -356,11 +356,11 @@ defmodule Cargo do
         acc + sum
       end)
 
-    if part1 + part2 < 0, do: 999_999, else: :math.sqrt(part1 + part2)
+    if part1 + part2 <= 0, do: 999, else: :math.sqrt(part1 + part2)
   end
 end
 
-soln = Genetic.run(Cargo, population_size: 400)
+soln = Genetic.run(Cargo, population_size: 200)
 
 IO.write("\n")
 IO.inspect(soln)

@@ -1,12 +1,13 @@
 FROM python:3
 
-WORKDIR /usr/src/app
+WORKDIR .
 
 COPY requirements.txt ./
 
 RUN pip install --no-cache-dir --upgrade pip \
   && pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY prices.csv ./
+COPY analysis.py ./
 
-CMD ["python", "./analysis.py"]
+CMD ["python3", "./analysis.py"]
