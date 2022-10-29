@@ -31,14 +31,16 @@
   <Table
     color="lightPurple"
     labels={["Timestamp", "Transaction Hash", "Amount"]}
-    rows={deposits.map(({ timestamp, transaction_hash: hash, amount }) => [
-      new Date(timestamp).toLocaleDateString("en-UK", {
-        day: "numeric",
-        month: "numeric",
-        year: "numeric",
-      }),
-      hash,
-      String(amount).concat(" ETH"),
-    ])}
+    rows={deposits
+      .map(({ timestamp, transaction_hash: hash, amount }) => [
+        new Date(timestamp).toLocaleDateString("en-UK", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        }),
+        hash,
+        String(amount).concat(" ETH"),
+      ])
+      .reverse()}
   />
 </div>
