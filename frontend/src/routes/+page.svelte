@@ -16,7 +16,10 @@
 <div class="max-w-screen-xl mx-10 lg:mx-auto">
   <header class=" text-black pt-10 pb-10 flex flex-col lg:block">
     <nav class="flex lg:justify-end order-2 lg:order-1 my-4 lg:my-0">
-      <Button color="orange"><h4><a href="/app">Go to app</a></h4></Button>
+      <Button
+        href="/app"
+        color="orange"><h4>Go to app</h4></Button
+      >
     </nav>
     <h1 class="my-4 order-1 lg:order-2">MATUSALEM...</h1>
     <div
@@ -58,9 +61,9 @@
     />
   </div>
   <Button
+    href="/app"
     color="orange"
-    class="mt-12 mx-auto bg-lightPurple"
-    ><h4><a href="/app">Try it</a></h4></Button
+    class="mt-12 mx-auto bg-lightPurple w-64"><h4>Try it</h4></Button
   >
 </CheckeredBg>
 

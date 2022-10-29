@@ -15,9 +15,9 @@
 
 {#if $account.connected}
   <AppHeader />
-  <div class="flex flex-row h-full">
+  <div class="text-black flex flex-row h-full">
     <AppSidebar />
-    <main class="px-10 py-5">
+    <main class="px-10 py-5 w-full">
       <slot />
     </main>
   </div>
