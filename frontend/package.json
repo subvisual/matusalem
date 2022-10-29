@@ -44,6 +44,7 @@
     "chart.js": "^3.9.1",
     "ethers": "^5.7.2",
     "starknet": "^4.9.0",
+    "svelte-agnostic-draggable": "^0.1.11",
     "svelte-chartjs": "^3.0.1"
   }
 }

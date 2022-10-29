@@ -6,22 +6,19 @@
   import image4 from "$lib/images/image4.png";
   import image5 from "$lib/images/image5.png";
   import image6 from "$lib/images/image6.png";
-  import slider from "$lib/images/slider-bar.png";
-  import sliderBtn from "$lib/images/slider-button.png";
   import Hourglass from "./icons/Hourglass.svelte";
   import EthColorful from "./icons/EthColorful.svelte";
   import Button from "./Button.svelte";
+  import SlideThing from "./SlideThing.svelte";
 
   let spinning = false;
-  let saturate = 0;
-  let overlayOpacity = 0;
   let sx = 0;
-  let sliderEl: HTMLDivElement;
   let progressDone = false;
   let onPrize = false;
   let timeout: ReturnType<typeof setTimeout>;
+  let progress = 0;
 
-  function handleMM(event: MouseEvent) {
+  /* function handleMM(event: MouseEvent) {
     sx = event.clientX;
     const rect = sliderEl.getBoundingClientRect();
 
@@ -49,114 +46,101 @@
 
     saturate = (sx * 1) / maxY;
     overlayOpacity = (sx * 1) / maxY;
-  }
+  } */
 </script>
 
-<CheckeredBg class="py-10 mt-4 relative">
-  <div
-    class="grid lg:grid-rows-2 lg:grid-cols-4 gap-10 w-fit max-w-screen-xl mx-10 lg:mx-auto"
-  >
-    <div class="relative eth-container">
-      <img
-        src={image1}
-        alt="old person 1"
-      />
-    </div>
-    <div class="relative eth-container">
-      <img
-        src={image2}
-        alt="old person 2"
-      />
-    </div>
-    <div class="hidden lg:flex row-span-2 justify-between self-center">
-      <div class={spinning ? "hourglass-wrapper spin" : "hourglass-wrapper"}>
-        <Hourglass />
-      </div>
-
-      <div
-        class="relative h-fit"
-        bind:this={sliderEl}
-        on:mousemove={handleMM}
-      >
+<div >
+  <CheckeredBg class="py-10 mt-4 relative">
+    <div
+      class="grid lg:grid-rows-2 lg:grid-cols-4 gap-10 w-fit max-w-screen-xl mx-10 lg:mx-auto"
+    >
+      <div class="relative eth-container">
         <img
-          src={slider}
+          src={image1}
           alt="old person 1"
         />
-        <button
-          type="button"
-          class="absolute left-0 right-0 m-auto bottom-14 w-10 h-10"
-          style="transform: translateY({sx * -1}px)"
+      </div>
+      <div class="relative eth-container">
+        <img
+          src={image2}
+          alt="old person 2"
+        />
+      </div>
+      <div class="hidden lg:flex row-span-2 justify-between self-center">
+        <div class={spinning ? "hourglass-wrapper spin" : "hourglass-wrapper"}>
+          <Hourglass />
+        </div>
+        <SlideThing
+          bind:value={sx}
+          bind:mid={spinning}
+          bind:progress
+        />
+
+        <div
+          class={spinning
+            ? "hourglass-wrapper self-end spin"
+            : "hourglass-wrapper self-end"}
         >
-          <img
-            src={sliderBtn}
-            alt="old person 1"
-          />
-        </button>
+          <Hourglass />
+        </div>
       </div>
+
+      <img
+        class="hidden lg:block"
+        src={image3}
+        alt="old person 1"
+      />
+      <img
+        src={image4}
+        alt="old person 1"
+        class="hidden lg:block"
+      />
+      <img
+        src={image5}
+        alt="old person 1"
+        class="hidden lg:block"
+      />
+      <img
+        src={image6}
+        alt="old person 1"
+        class="hidden lg:block"
+      />
+    </div>
+
+    {#if spinning}
+      <h2
+        class="absolute inset-0 m-auto text-center pointer-events-none text-black h-fit flicker tracking-wide"
+      >
+        Investing...
+      </h2>
+    {/if}
+
+    {#if progressDone}
       <div
-        class={spinning
-          ? "hourglass-wrapper self-end spin"
-          : "hourglass-wrapper self-end"}
+        class="absolute inset-0 m-auto w-fit h-fit bg-white p-10 px-20 prize aspect-square z-10"
+        on:mouseenter={() => {
+          clearTimeout(timeout);
+          progressDone = true;
+          onPrize = true;
+        }}
+        on:mouseleave={() => {
+          progressDone = false;
+          onPrize = false;
+        }}
       >
-        <Hourglass />
+        <div class="prize-flicker">
+          <EthColorful class="h-20 w-20 mx-auto" />
+        </div>
+        <Button
+          color="orange"
+          class="mt-12 mx-auto bg-lightPurple"
+        >
+          <h4><a href="/app">Try it</a></h4>
+        </Button>
       </div>
-    </div>
-
-    <img
-      class="hidden lg:block"
-      src={image3}
-      alt="old person 1"
-    />
-    <img
-      src={image4}
-      alt="old person 1"
-      class="hidden lg:block"
-    />
-    <img
-      src={image5}
-      alt="old person 1"
-      class="hidden lg:block"
-    />
-    <img
-      src={image6}
-      alt="old person 1"
-      class="hidden lg:block"
-    />
-  </div>
-
-  {#if spinning}
-    <h2
-      class="absolute inset-0 m-auto text-center pointer-events-none text-black h-fit flicker tracking-wide"
-    >
-      Investing...
-    </h2>
-  {/if}
-
-  {#if progressDone}
-    <div
-      class="absolute inset-0 m-auto w-fit h-fit bg-white p-10 px-20 prize aspect-square z-10"
-      on:mouseenter={() => {
-        clearTimeout(timeout);
-        progressDone = true;
-        onPrize = true;
-      }}
-      on:mouseleave={() => {
-        progressDone = false;
-        onPrize = false;
-      }}
-    >
-      <div class="prize-flicker">
-        <EthColorful class="h-20 w-20 mx-auto" />
-      </div>
-      <Button
-        color="orange"
-        class="mt-12 mx-auto bg-lightPurple"
-      >
-        <h4><a href="/app">Try it</a></h4>
-      </Button>
-    </div>
-  {/if}
-</CheckeredBg>
+    {/if}
+  </CheckeredBg>
+</div>
 
 <style>
   @keyframes pulse {
