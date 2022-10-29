@@ -1,0 +1,7 @@
+{
+  "plugins": ["./node_modules/prettier-plugin-svelte"],
+  "svelteBracketNewLine": true,
+  "htmlWhitespaceSensitivity": "strict",
+  "singleAttributePerLine": true,
+  "embeddedLanguageFormatting": "auto"
+}
