@@ -1,8 +1,8 @@
 <script lang="ts">
   import CheckeredBg from "./CheckeredBg.svelte";
-  import image1 from "$lib/images/image1b.png";
-  import image2 from "$lib/images/image2b.png";
-  import image3 from "$lib/images/image3b.png";
+  import image1 from "$lib/images/image1.png";
+  import image2 from "$lib/images/image2.png";
+  import image3 from "$lib/images/image3.png";
   import image4 from "$lib/images/image4.png";
   import image5 from "$lib/images/image5.png";
   import image6 from "$lib/images/image6.png";
@@ -11,7 +11,7 @@
   import Hourglass from "./icons/Hourglass.svelte";
   import EthColorful from "./icons/EthColorful.svelte";
 
-  let spinning = true;
+  let spinning = false;
   let brightness = 0.1;
   let drop = 0;
   let saturate = 0;
@@ -19,6 +19,7 @@
   let overlaySize = 0;
   let sx = 0;
   let sliderEl: HTMLDivElement;
+  let progressDone = false;
 
   function handleMM(event: MouseEvent) {
     sx = event.clientX;
@@ -35,8 +36,14 @@
     } else if (moved > maxY) {
       sx = maxY;
       spinning = false;
+      progressDone = true;
+
+      setTimeout(() => {
+        progressDone = false;
+      }, 3000);
     } else {
       spinning = true;
+      progressDone = false;
       sx = moved;
     }
 
@@ -48,7 +55,7 @@
   }
 </script>
 
-<CheckeredBg class="py-10 px-36 mt-14">
+<CheckeredBg class="py-10 px-36 mt-4 relative">
   <div class="grid grid-rows-2 grid-cols-4 gap-10 w-fit">
     <div class="relative eth-container">
       <img
@@ -145,6 +152,23 @@
       alt="old person 1"
     />
   </div>
+
+  {#if spinning}
+    <h2
+      class="absolute inset-0 m-auto text-center pointer-events-none text-black h-fit flicker tracking-wide"
+    >
+      Investing...
+    </h2>
+  {/if}
+
+  {#if progressDone}
+    <div
+      class="absolute inset-0 m-auto w-fit h-fit bg-white p-10 px-16 prize aspect-square z-10"
+    >
+      <EthColorful class="h-20 w-20 mx-auto" />
+      <h3 class="text-center text-orange mt-8">Success!</h3>
+    </div>
+  {/if}
 </CheckeredBg>
 
 <style>
@@ -153,14 +177,12 @@
     top: 8%;
     margin: auto;
     width: 28px;
-    z-index: 100;
   }
   .eth-2 {
     right: 24%;
     bottom: 7%;
     margin: auto;
     width: 38px;
-    z-index: 100;
   }
   .eth-3 {
     right: 0;
@@ -168,7 +190,6 @@
     top: 12%;
     margin: auto;
     width: 28px;
-    z-index: 100;
   }
 
   @keyframes pulse {
@@ -200,6 +221,29 @@
     }
   }
 
+  @keyframes flicker {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0;
+    }
+    51% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .flicker {
+    animation: flicker 0.8s infinite;
+    filter: drop-shadow(4px 4px 0px #d8fbd7);
+  }
+  .prize {
+    animation: flicker 0.4s infinite;
+    filter: drop-shadow(4px 4px 0px #d8fbd7);
+  }
   .overlay {
     display: block;
     top: 50%;
