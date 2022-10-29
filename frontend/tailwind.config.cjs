@@ -16,6 +16,7 @@ module.exports = {
         48: "48px",
         28: "28px",
         18: "18px",
+        14: "14px",
       },
       fontWeight: {
         bold: "bold",

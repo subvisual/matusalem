@@ -1,6 +1,7 @@
 <script lang="ts">
   import RightArrow from "./icons/RightArrow.svelte";
   import LeftArrow from "./icons/LeftArrow.svelte";
+  import Card from "./Card.svelte";
 
   const steps = [
     {
@@ -50,13 +51,12 @@
     >Steps to become rich</h4
   >
   <div class="bg-lightGreen p-5 pt-7 pb-9">
-    <div class="border-[5px] border-black p-1">
-      <div class="border-2 min-h-[18rem] border-black p-9">
-        <h3 class="mb-3">{steps[current].title}</h3>
+    <Card color="lightGreen">
+      <div class="min-h-[14rem]">
+        <h3 class="mb-4">{steps[current].title}</h3>
         <p>{steps[current].description}</p>
       </div>
-    </div>
-
+    </Card>
     <div class="flex justify-center mx-auto mt-6">
       <button
         class="bg-white px-1 border border-black"
