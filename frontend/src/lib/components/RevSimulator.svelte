@@ -55,6 +55,7 @@
     <p class="mb-2">Monthly payment</p>
     <Input
       type="number"
+      step="0.001"
       placeholder="0.1 ETH"
     />
   </div>

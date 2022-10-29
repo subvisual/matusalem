@@ -30,11 +30,13 @@
   }
 </script>
 
-<div class="w-[50rem] max-w-full mx-auto">
-  <h4 class="bg-orange flex justify-center p-3">Steps to become rich</h4>
+<div class="max-w-full mx-auto border-2 border-black">
+  <h4 class="bg-orange flex justify-center p-3 border-b-2 border-black"
+    >Steps to become rich</h4
+  >
   <div class="bg-lightGreen p-5 pt-7 pb-9">
     <div class="border-[5px] border-black p-1">
-      <div class="border-2 h-72 border-black p-9">
+      <div class="border-2 min-h-[18rem] border-black p-9">
         <h3 class="mb-3">{steps[current].title}</h3>
         <p>{steps[current].description}</p>
       </div>
