@@ -48,10 +48,10 @@
 </div>
 
 <div class="w-fit mx-auto mb-10">
-  <h3 class="text-center mb-4">Timeline</h3>
+  <h3 class="text-center mb-4">Deposits</h3>
   <Table
     color="lightPurple"
-    labels={Object.keys(portfolioData.deposits[0])}
+    labels={["Timestamp", "Transaction Hash", "Amount"]}
     rows={portfolioData.deposits.map(
       ({ timestamp, transaction_hash: hash, amount }) => [
         new Date(timestamp).toLocaleDateString("en-UK", {
@@ -59,15 +59,14 @@
           month: "numeric",
           year: "numeric",
         }),
-        // truncateAddress(hash),
         hash,
-        String(amount),
+        String(amount).concat(" ETH"),
       ]
     )}
   />
 </div>
 
 <div class="w-[30rem] mx-auto mb-10">
-  <h3 class="text-center mb-4">Deposits</h3>
+  <h3 class="text-center mb-4">Timeline</h3>
   <LineChart {...timeline} />
 </div>
