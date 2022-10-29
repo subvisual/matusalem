@@ -11,7 +11,7 @@
 <nav class="h-full">
   <CheckeredBg class="pt-10 px-20 flex flex-col items-start min-h-screen">
     <Button
-      color="beige"
+      color="white"
       class="mb-6 nav-link"
       href="/app"
     >
@@ -19,7 +19,7 @@
       HOME
     </Button>
     <Button
-      color="beige"
+      color="white"
       class="mb-6 nav-link"
       href="/app/proposals"
     >
@@ -27,7 +27,7 @@
       Proposals
     </Button>
     <Button
-      color="beige"
+      color="white"
       href="/app/deposit"
       class="mb-6 nav-link"
     >
@@ -35,7 +35,7 @@
       <LockKey slot="leftIcon" />
     </Button>
     <Button
-      color="beige"
+      color="white"
       href="/app/withdraw"
       class="mb-6 nav-link"
     >
@@ -43,7 +43,7 @@
       Withdraw
     </Button>
     <Button
-      color="beige"
+      color="white"
       href="/app/portfolio"
       class="mb-6 nav-link"
     >

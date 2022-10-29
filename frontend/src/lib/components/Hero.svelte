@@ -55,7 +55,7 @@
   }
 </script>
 
-<CheckeredBg class="py-10 px-36 mt-4 relative">
+<CheckeredBg class="py-10 px-36 mt-14 relative">
   <div class="grid grid-rows-2 grid-cols-4 gap-10 w-fit">
     <div class="relative eth-container">
       <img
@@ -165,7 +165,7 @@
     <div
       class="absolute inset-0 m-auto w-fit h-fit bg-white p-10 px-16 prize aspect-square z-10"
     >
-      <EthColorful class="h-20 w-20 mx-auto" />
+      <EthColorful class="h-18 w-18 mx-auto" />
       <h3 class="text-center text-orange mt-8">Success!</h3>
     </div>
   {/if}
