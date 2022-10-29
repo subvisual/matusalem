@@ -1,44 +1,44 @@
 {
   "assets": {
-    "rocket": 60,
-    "eurler": 20,
-    "uniswap": 2,
-    "wrapped-bitcoin": 2,
-    "maker": 2,
-    "filecoin": 2,
-    "aave": 2,
-    "curve-dao-token": 2,
-    "nexo": 2,
-    "the-graph": 2,
-    "sandclock": 2
+    "Rocket Pool": 60,
+    "Euler": 20,
+    "Uniswap": 2,
+    "Wrapped Bitcoin": 2,
+    "Maker": 2,
+    "Filecoin": 2,
+    "Aave": 2,
+    "Curve DAO Token": 2,
+    "Nexo": 2,
+    "The Graph": 2,
+    "Sandclock": 2
   },
   "deposits": [
     {
-      "timestamp": "1661794197",
+      "timestamp": 1661794197000,
       "transaction_hash": "0x0cab60f0e1edff699c794ab9b06549ce204fac46b910b68c6f478ab9fbe0a6a8",
       "amount": 0.8
     },
     {
-      "timestamp": "1664472597",
+      "timestamp": 1664472597000,
       "transaction_hash": "0xd68899a0e423acefaade823bf0d9b62f57d091f1cc699d710b9626a7fce241d1",
       "amount": 0.8
     },
     {
-      "timestamp": "1667064597",
+      "timestamp": 1667064597000,
       "transaction_hash": "0x4f7c468cb96f888919064cd909b7c0b447e949cf64dc2896e1433da2c00c2995",
       "amount": 0.8
     }
   ],
   "historical_data": [
-    { "timestamp": "1661794197", "amount": 0.8 },
-    { "timestamp": "1662398997", "amount": 0.8001323 },
-    { "timestamp": "1663004512", "amount": 0.8003443 },
-    { "timestamp": "1663609312", "amount": 0.8008049 },
-    { "timestamp": "1664214112", "amount": 0.8017483 },
-    { "timestamp": "1664731797", "amount": 1.6038493 },
-    { "timestamp": "1665336597", "amount": 1.6073849 },
-    { "timestamp": "1665941397", "amount": 1.6144332 },
-    { "timestamp": "1666546197", "amount": 1.6648393 },
-    { "timestamp": "1666546197", "amount": 2.5484739 }
+    { "timestamp": 1661794197000, "amount": 0.8 },
+    { "timestamp": 1662398997000, "amount": 0.8001323 },
+    { "timestamp": 1663004512000, "amount": 0.8003443 },
+    { "timestamp": 1663609312000, "amount": 0.8008049 },
+    { "timestamp": 1664214112000, "amount": 0.8017483 },
+    { "timestamp": 1664731797000, "amount": 1.6038493 },
+    { "timestamp": 1665336597000, "amount": 1.6073849 },
+    { "timestamp": 1665941397000, "amount": 1.6144332 },
+    { "timestamp": 1666546197000, "amount": 1.6648393 },
+    { "timestamp": 1666546197000, "amount": 2.5484739 }
   ]
 }
