@@ -31,6 +31,24 @@
   p {
     font-size: 18px;
   }
+
+  @media screen and (max-width: 1000px) {
+    h1 {
+      font-size: 36px;
+    }
+    h2 {
+      font-size: 24px;
+    }
+    h3 {
+      font-size: 18px;
+    }
+    h4 {
+      font-size: 16px;
+    }
+    p {
+      font-size: 16px;
+    }
+  }
 }
 
 @layer components {

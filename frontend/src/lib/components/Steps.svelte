@@ -30,7 +30,7 @@
   }
 </script>
 
-<div class="max-w-full mx-auto border-2 border-black">
+<div class="border-2 border-black">
   <h4 class="bg-orange flex justify-center p-3 border-b-2 border-black"
     >Steps to become rich</h4
   >

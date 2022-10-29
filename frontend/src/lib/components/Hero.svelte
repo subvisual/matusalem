@@ -52,42 +52,23 @@
   }
 </script>
 
-<CheckeredBg class="py-10 px-36 mt-4 relative">
-  <div class="grid grid-rows-2 grid-cols-4 gap-10 w-fit">
+<CheckeredBg class="py-10 mt-4 relative">
+  <div
+    class="grid lg:grid-rows-2 lg:grid-cols-4 gap-10 w-fit max-w-screen-xl mx-10 lg:mx-auto"
+  >
     <div class="relative eth-container">
       <img
         src={image1}
         alt="old person 1"
       />
-      <div class="eth-1 absolute icon-wrap">
-        <EthColorful
-          class="w-full h-full"
-          style=" saturate({saturate}); opacity: {overlayOpacity}"
-        />
-      </div>
-      <div
-        class="overlay"
-        style="opacity: {overlayOpacity}"
-      />
     </div>
-
     <div class="relative eth-container">
       <img
         src={image2}
         alt="old person 2"
       />
-      <div class="eth-2 absolute icon-wrap">
-        <EthColorful
-          class="w-full h-full"
-          style="filter: saturate({saturate}); opacity: {overlayOpacity}"
-        />
-      </div>
-      <div
-        class="overlay"
-        style="opacity: {overlayOpacity}"
-      />
     </div>
-    <div class="row-span-2 flex justify-between self-center">
+    <div class="hidden lg:flex row-span-2 justify-between self-center">
       <div class={spinning ? "hourglass-wrapper spin" : "hourglass-wrapper"}>
         <Hourglass />
       </div>
@@ -120,33 +101,26 @@
         <Hourglass />
       </div>
     </div>
-    <div class="relative eth-container">
-      <img
-        src={image3}
-        alt="old person 1"
-      />
-      <div class="eth-3 absolute icon-wrap">
-        <EthColorful
-          class="w-full h-full"
-          style="filter: saturate({saturate}); opacity: {overlayOpacity}"
-        />
-      </div>
-      <div
-        class="overlay"
-        style="opacity: {overlayOpacity}"
-      />
-    </div>
+
+    <img
+      class="hidden lg:block"
+      src={image3}
+      alt="old person 1"
+    />
     <img
       src={image4}
       alt="old person 1"
+      class="hidden lg:block"
     />
     <img
       src={image5}
       alt="old person 1"
+      class="hidden lg:block"
     />
     <img
       src={image6}
       alt="old person 1"
+      class="hidden lg:block"
     />
   </div>
 
@@ -185,26 +159,6 @@
 </CheckeredBg>
 
 <style>
-  .eth-1 {
-    left: 42%;
-    top: 8%;
-    margin: auto;
-    width: 28px;
-  }
-  .eth-2 {
-    right: 24%;
-    bottom: 7%;
-    margin: auto;
-    width: 38px;
-  }
-  .eth-3 {
-    right: 0;
-    left: 0;
-    top: 12%;
-    margin: auto;
-    width: 28px;
-  }
-
   @keyframes pulse {
     from {
       transform: scale(0.9);
@@ -258,27 +212,6 @@
   }
   .prize-flicker {
     animation: flicker 0.4s infinite;
-  }
-  .overlay {
-    display: block;
-    top: 50%;
-    left: 50%;
-    margin: auto;
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 100%;
-    background: radial-gradient(#ffffffaa, #ffffff00);
-    z-index: 1;
-    transform: translate(-50%, -50%);
-    animation: overlay-pulse 5s linear alternate-reverse infinite;
-    display: none;
-  }
-
-  .icon-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   .hourglass-wrapper {
     width: fit-content;
