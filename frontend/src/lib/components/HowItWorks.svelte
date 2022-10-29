@@ -3,8 +3,8 @@
   import img from "$lib/images/old_beard_man_1.png";
 </script>
 
-<section class="flex flex-row my-14 px-36">
-  <div class="pr-20 w-2/3">
+<section class="flex flex-col lg:flex-row my-14 lg:px-20">
+  <div class="lg:pr-20 lg:w-2/3">
     <img
       alt="Old man with a beard is rich now"
       class="mb-12"
@@ -24,7 +24,7 @@
       and wisdom.
     </p>
   </div>
-  <div class="w-1/3">
+  <div class="lg:w-1/3">
     <RevSimulator />
   </div>
 </section>
