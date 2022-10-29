@@ -13,11 +13,11 @@
   import image5 from "$lib/images/image5.png";
 </script>
 
-<header class="px-36 text-black pt-8 pb-20">
+<header class="px-36 text-black pt-10 pb-10">
   <nav class="flex justify-end">
     <Button color="orange"><h4><a href="/app">Go to app</a></h4></Button>
   </nav>
-  <h1 class="mb-8 mt-8">MATUSALEM...</h1>
+  <h1 class="my-4">MATUSALEM...</h1>
   <div
     class="inline-flex items-center gap-10 p-4 bg-white border-4 border-black shadow-black shadow-[6px_6px]"
   >
