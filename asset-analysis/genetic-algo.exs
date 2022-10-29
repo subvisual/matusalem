@@ -50,12 +50,29 @@ defmodule Genetic do
   def mutation(population, _opts \\ []) do
     population
     |> Enum.map(fn chromosome ->
-      if :rand.uniform() < 0.05 do
-        %Chromosome{chromosome | genes: Enum.shuffle(chromosome.genes)}
-      else
-        chromosome
+      cond do
+        :rand.uniform() < 0.05 ->
+          new_genes = Enum.map(chromosome.genes, &random_weights/1)
+          %Chromosome{chromosome | genes: genotype_normalizer(new_genes)}
+
+        true ->
+          chromosome
       end
     end)
+  end
+
+  defp random_weights(gene) do
+    range = floor(gene * 0.5)
+
+    updated_value = gene + Enum.random(-range..range)
+
+    if updated_value <= 0, do: Enum.random(0..2), else: updated_value
+  end
+
+  def genotype_normalizer(genes) do
+    scaling_factor = 100 / Enum.sum(genes)
+
+    Enum.map(genes, &floor(&1 * scaling_factor))
   end
 
   def run(problem, opts \\ []) do
@@ -90,76 +107,262 @@ defmodule Cargo do
   alias Types.Chromosome
 
   def genotype do
-    genes = for _ <- 1..10, do: Enum.random(0..50)
-    %Chromosome{genes: genes, size: 10}
+    genes = for _ <- 1..11, do: 0
+
+    genes =
+      genes
+      |> genotype_randomizer()
+      |> Genetic.genotype_normalizer()
+
+    %Chromosome{genes: genes, size: 11}
+  end
+
+  defp genotype_randomizer(genes) do
+    seed = Enum.random(0..50)
+    new_gene = Enum.random(0..seed)
+    gene_position = Enum.random(0..(length(genes) - 1))
+    old_gene = Enum.at(genes, gene_position)
+
+    cond do
+      Enum.sum(genes) + new_gene - old_gene > 100 ->
+        genes
+
+      true ->
+        genes
+        |> List.replace_at(gene_position, new_gene)
+        |> genotype_randomizer()
+    end
   end
 
   def fitness_function(chromosome) do
-    # profits = [6, 5, 8, 9, 6, 7, 3, 1, 2, 6]
-    st_deviation = [1, 0.006410009180618754, 0.004115835276554607]
+    risk_free_return = 0.04
+
+    st_deviation = [
+      0.00001,
+      0.00641,
+      0.00411,
+      0.00749,
+      0.00861,
+      0.00587,
+      0.00598,
+      0.00778,
+      0.00660,
+      0.01923,
+      0.02266
+    ]
 
     avg_returns = [
       0.04,
-      -0.00005433328659642472,
-      -0.000017478142491588289,
-      -0.00003845708719658985,
-      -0.00011041406483391978,
-      -0.000009056143390544136,
-      -0.00012348930535972677,
-      0.00022307263698361307,
-      -0.00018362343473859146,
-      -0.0001427186054860768,
-      0.00050453416222847894
+      -0.000054,
+      -0.000017,
+      -0.000038,
+      -0.000110,
+      -0.000009,
+      -0.000123,
+      0.000223,
+      -0.000183,
+      -0.000142,
+      0.000504
     ]
 
     correlations = %{
-      eth: [0, 0, 0],
-      uniswap: [0, 1, 0.618087],
-      wbtc: [0, 0.618087, 1]
+      eth: [0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+      uniswap: [
+        0,
+        0,
+        0.618087,
+        0.742843,
+        0.669962,
+        0.643969,
+        0.344674,
+        -0.195201,
+        0.361616,
+        -0.511059,
+        -0.599811
+      ],
+      wbtc: [
+        0,
+        0,
+        0,
+        0.670761,
+        0.188068,
+        0.555821,
+        -0.118881,
+        0.501259,
+        0.207885,
+        -0.311337,
+        0.041636
+      ],
+      maker: [
+        0,
+        0,
+        0,
+        0,
+        0.227948,
+        0.705858,
+        -0.042464,
+        0.101900,
+        -0.139136,
+        -0.744252,
+        -0.317326
+      ],
+      filecoin: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.359186,
+        0.742797,
+        -0.594173,
+        0.687426,
+        0.013990,
+        -0.643986
+      ],
+      aave: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.267311,
+        0.140784,
+        0.067580,
+        -0.388773,
+        -0.174816
+      ],
+      curve: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -0.606106,
+        0.617365,
+        0.272188,
+        -0.388102
+      ],
+      nexo: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -0.285172,
+        -0.008323,
+        0.624863
+      ],
+      grt: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.486923,
+        -0.207457
+      ],
+      sandclock: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.449937
+      ],
+      euler: [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
     }
 
-    # weights = [10, 6, 8, 7, 10, 9, 7, 11, 6, 8]
-    weight_limit = 100
+    portfolio_returns = portfolio_returns(avg_returns, chromosome.genes)
 
-    cond do
-      Enum.sum(chromosome.genes) > weight_limit ->
-        0
+    portfolio_st_deviation = portfolio_st_deviation(st_deviation, correlations, chromosome.genes)
 
-      true ->
-        avg_returns
-        |> Enum.zip(chromosome.genes)
-        |> Enum.map(fn {p, g} -> p * g end)
-        |> Enum.sum()
-    end
-
-    # potential_profits =
-    #   profits
-    #   |> Enum.zip(chromosome.genes)
-    #   |> Enum.map(fn {p, g} -> p * g end)
-    #   |> Enum.sum()
-
-    # over_limit? =
-    #   weights
-    #   |> Enum.zip(chromosome.genes)
-    #   |> Enum.map(fn {p, g} -> p * g end)
-    #   |> Enum.sum()
-    #   |> Kernel.>(weight_limit)
-
-    # if over_limit?, do: 0, else: potential_profits
+    (portfolio_returns - risk_free_return) / portfolio_st_deviation
   end
 
-  def terminate?(_population, generation), do: generation == 500_000
+  def terminate?(_population, generation), do: generation == 100_000
+
+  defp portfolio_returns(avg_returns, genes) do
+    avg_returns
+    |> Enum.zip(genes)
+    |> Enum.map(fn {p, g} -> p * (g / 100) end)
+    |> Enum.sum()
+  end
+
+  defp portfolio_st_deviation(st_deviation, correlations, genes) do
+    assets = [
+      :eth,
+      :uniswap,
+      :wbtc,
+      :maker,
+      :filecoin,
+      :aave,
+      :curve,
+      :nexo,
+      :grt,
+      :sandclock,
+      :euler
+    ]
+
+    part1 =
+      genes
+      |> Enum.zip(st_deviation)
+      |> Enum.map(fn {p, g} -> p ** 2 * (g / 100) ** 2 end)
+      |> Enum.sum()
+
+    part2 =
+      Enum.reduce(correlations, 0, fn {asset, corrs}, acc ->
+        asset_index = Enum.find_index(assets, &(&1 == asset))
+
+        sum =
+          corrs
+          |> Enum.with_index()
+          |> Enum.map(fn {corr, index} ->
+            weight1 = Enum.at(genes, asset_index)
+            weight2 = Enum.at(genes, index)
+            std1 = Enum.at(st_deviation, asset_index)
+            std2 = Enum.at(st_deviation, index)
+
+            2 * weight1 * weight2 * corr * std1 * std2
+          end)
+          |> Enum.sum()
+
+        acc + sum
+      end)
+
+    if part1 + part2 < 0, do: 999_999, else: :math.sqrt(part1 + part2)
+  end
 end
 
-soln = Genetic.run(Cargo, population_size: 50)
+soln = Genetic.run(Cargo, population_size: 400)
 
 IO.write("\n")
 IO.inspect(soln)
 
-weight =
-  soln.genes
-  |> Enum.zip([10, 6, 8, 7, 10, 9, 7, 11, 6, 8])
-  |> Enum.map(fn {g, w} -> w * g end)
-  |> Enum.sum()
-
-IO.write("\nWeight is: #{weight}\n")
+IO.write("\nSharpe Ratio is: #{soln.fitness}\n")
