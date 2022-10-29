@@ -9,7 +9,7 @@
 </script>
 
 <nav class="h-full">
-  <CheckeredBg class="pt-10 px-20 flex flex-col items-start min-h-screen">
+  <CheckeredBg class="pt-10 px-20 flex flex-col min-h-screen items-stretch">
     <Button
       color="white"
       class="mb-6 nav-link"

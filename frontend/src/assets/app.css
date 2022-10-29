@@ -11,6 +11,10 @@
   background: #d8fbd7;
 }
 
+.svg {
+  pointer-events: none;
+}
+
 @layer base {
   h1 {
     font-size: 64px;
