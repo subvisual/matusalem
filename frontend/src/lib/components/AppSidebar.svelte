@@ -8,7 +8,7 @@
   import PaperAirplane from "./icons/PaperAirplane.svelte";
 </script>
 
-<nav class="h-full">
+<nav class="h-full sticky top-0">
   <CheckeredBg class="pt-10 px-20 flex flex-col min-h-screen items-stretch">
     <Button
       color="white"
@@ -25,6 +25,14 @@
     >
       <Mind slot="leftIcon" />
       Proposals
+    </Button>
+    <Button
+      color="white"
+      class="mb-6 nav-link"
+      href="/app/strategies"
+    >
+      <Mind slot="leftIcon" />
+      Strategies
     </Button>
     <Button
       color="white"

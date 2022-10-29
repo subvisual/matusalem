@@ -4,6 +4,7 @@
   import Input from "./Input.svelte";
   import img1 from "$lib/images/dolorean.png";
   import img2 from "$lib/images/treasure.png";
+  import sleep from "$lib/utils/sleep";
 
   let submitted = false;
   let hourglassSpinning = true;
@@ -25,10 +26,6 @@
 
     return Math.floor(Math.random() * (max - 0 + 1)) + 0;
   }
-
-  const sleep = async (time: number) =>
-    // eslint-disable-next-line no-promise-executor-return
-    new Promise((res) => setTimeout(res, time));
 
   async function handleSubmit() {
     calculated = false;
