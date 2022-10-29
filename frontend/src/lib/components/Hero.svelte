@@ -10,11 +10,12 @@
 </script>
 
 <CheckeredBg class="py-10 px-36">
-  <div class="grid grid-rows-2 grid-cols-2 gap-3 w-fit">
-    {#each imgs as img}
+  <div class="grid grid-rows-2 grid-cols-2 gap-x-6 gap-y-3 w-fit mx-auto">
+    {#each imgs as img, index}
       <img
+        class="h-52 w-52"
         src={img}
-        alt="old person 1"
+        alt="old person {index + 1}"
       />
     {/each}
   </div>
