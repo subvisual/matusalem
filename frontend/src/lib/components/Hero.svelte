@@ -10,25 +10,25 @@
   import sliderBtn from "$lib/images/slider-button.png";
   import Hourglass from "./icons/Hourglass.svelte";
   import EthColorful from "./icons/EthColorful.svelte";
+  import Button from "./Button.svelte";
 
   let spinning = false;
-  let brightness = 0.1;
-  let drop = 0;
   let saturate = 0;
   let overlayOpacity = 0;
-  let overlaySize = 0;
   let sx = 0;
   let sliderEl: HTMLDivElement;
   let progressDone = false;
+  let onPrize = false;
+  let timeout: ReturnType<typeof setTimeout>;
 
   function handleMM(event: MouseEvent) {
     sx = event.clientX;
     const rect = sliderEl.getBoundingClientRect();
 
     const sliderEnd = rect.y + rect.height;
-    const maxY = rect.height - 100;
+    const maxY = rect.height - 120;
 
-    const moved = sliderEnd - event.clientY;
+    const moved = sliderEnd - event.clientY - 56;
 
     if (moved < 20) {
       sx = 0;
@@ -38,8 +38,8 @@
       spinning = false;
       progressDone = true;
 
-      setTimeout(() => {
-        progressDone = false;
+      timeout = setTimeout(() => {
+        if (!onPrize) progressDone = false;
       }, 3000);
     } else {
       spinning = true;
@@ -47,11 +47,8 @@
       sx = moved;
     }
 
-    brightness = (sx * 1.1) / maxY;
-    drop = (sx * 30) / maxY;
     saturate = (sx * 1) / maxY;
     overlayOpacity = (sx * 1) / maxY;
-    overlaySize = (sx * 300) / maxY;
   }
 </script>
 
@@ -107,7 +104,7 @@
         <button
           type="button"
           class="absolute left-0 right-0 m-auto bottom-14 w-10 h-10"
-          style="transform: translateY({sx * -1 + 20}px)"
+          style="transform: translateY({sx * -1}px)"
         >
           <img
             src={sliderBtn}
@@ -163,10 +160,26 @@
 
   {#if progressDone}
     <div
-      class="absolute inset-0 m-auto w-fit h-fit bg-white p-10 px-16 prize aspect-square z-10"
+      class="absolute inset-0 m-auto w-fit h-fit bg-white p-10 px-20 prize aspect-square z-10"
+      on:mouseenter={() => {
+        clearTimeout(timeout);
+        progressDone = true;
+        onPrize = true;
+      }}
+      on:mouseleave={() => {
+        progressDone = false;
+        onPrize = false;
+      }}
     >
-      <EthColorful class="h-20 w-20 mx-auto" />
-      <h3 class="text-center text-orange mt-8">Success!</h3>
+      <div class="prize-flicker">
+        <EthColorful class="h-20 w-20 mx-auto" />
+      </div>
+      <Button
+        color="orange"
+        class="mt-12 mx-auto bg-lightPurple"
+      >
+        <h4><a href="/app">Try it</a></h4>
+      </Button>
     </div>
   {/if}
 </CheckeredBg>
@@ -241,8 +254,10 @@
     filter: drop-shadow(4px 4px 0px #d8fbd7);
   }
   .prize {
+    filter: drop-shadow(4px 4px 0px #eac0e9);
+  }
+  .prize-flicker {
     animation: flicker 0.4s infinite;
-    filter: drop-shadow(4px 4px 0px #d8fbd7);
   }
   .overlay {
     display: block;
