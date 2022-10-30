@@ -21,7 +21,7 @@
         color="orange"><h4>Go to app</h4></Button
       >
     </nav>
-    <h1 class="my-4 order-1 lg:order-2">MATUSALEM...</h1>
+    <h1 class="mb-4 mt-2 order-1 lg:order-2">MATUSALEM...</h1>
     <div
       class="inline-flex items-center gap-10 p-4 bg-white border-4 border-black shadow-black shadow-[6px_6px] order-3"
     >
