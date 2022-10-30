@@ -56,7 +56,7 @@ bacalhau docker run finiam/matusalem-analysis15
   
 Most part of the code is inspired in the book: **Genetic Algorithms in Elixir** by Sean Moriarity [check here](https://pragprog.com/titles/smgaelixir/genetic-algorithms-in-elixir/). It has a bunch of updates in order to adapt to optimizing to asset weights and the fitness function to calculate the Sharpe Ratio.
 
-- [How to calculate Sharpe Ration](https://www.wallstreetmojo.com/portfolio-standard-deviation/)
+- [How to calculate Sharpe Ration](https://www.wallstreetmojo.com/sharpe-ratio-formula/)
 - [How to calculate Portfolio's Standard Deviation](https://www.wallstreetmojo.com/portfolio-standard-deviation/)
 
 ### Running the simulation on Bacalhau
