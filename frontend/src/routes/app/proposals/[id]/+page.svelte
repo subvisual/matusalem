@@ -44,7 +44,7 @@
       <p>Yes</p>
     </div>
   </article>
-  <Card color="black">
+  <Card color="lightGreen">
     <div class="flex flex-col gap-4 items-center">
       <Button
         class="py-2 w-32 flex justify-start gap-4 mb-3"
