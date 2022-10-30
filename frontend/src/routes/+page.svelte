@@ -15,7 +15,17 @@
 
 <div class="max-w-screen-xl mx-10 lg:mx-auto">
   <header class=" text-black pt-10 pb-10 flex flex-col lg:block">
-    <nav class="flex lg:justify-end order-2 lg:order-1 my-4 lg:my-0">
+    <nav
+      class="flex items-center lg:justify-end order-2 lg:order-1 my-4 lg:my-0"
+    >
+      <a
+        class="mr-8"
+        href="https://github.com/finiam/matusalem"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <Github class="fill-black" />
+      </a>
       <Button
         href="/app"
         color="orange"><h4>Go to app</h4></Button
