@@ -1,10 +1,19 @@
 # matusalem
 
-## Frontend
+<img src="assets/trader.jpg" width="200" />
+(futuristic hedge fund trader)
 
 https://glittery-narwhal-c50b36.netlify.app/
 
-## Funds
+## Protocol
+
+<p align="center">
+  <img src="assets/protocol-analysis.png" width="500" />
+</p>
+
+<p align="center">
+  <img src="assets/chicken-bond1.png" width="500" />
+</p>
 
 ## Asset Analysis
 
@@ -45,7 +54,10 @@ bacalhau docker run finiam/matusalem-analysis15
 
 ### Developing the Genetic Algorithms
   
-Most part of the code is inspired in the book: "Genetic Algorithms in Elixir" by Sean Moriarity [check here](https://pragprog.com/titles/smgaelixir/genetic-algorithms-in-elixir/). It has a bunch of updates in order to adapt to optimizing to asset weights and the fitness function to calculate the Sharpe Ratio.
+Most part of the code is inspired in the book: **Genetic Algorithms in Elixir** by Sean Moriarity [check here](https://pragprog.com/titles/smgaelixir/genetic-algorithms-in-elixir/). It has a bunch of updates in order to adapt to optimizing to asset weights and the fitness function to calculate the Sharpe Ratio.
+
+- [How to calculate Sharpe Ration](https://www.wallstreetmojo.com/portfolio-standard-deviation/)
+- [How to calculate Portfolio's Standard Deviation](https://www.wallstreetmojo.com/portfolio-standard-deviation/)
 
 ### Running the simulation on Bacalhau
 
