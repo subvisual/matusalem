@@ -61,7 +61,7 @@ Most part of the code is inspired in the book: **Genetic Algorithms in Elixir** 
 
 ### Running the simulation on Bacalhau
 
-The simulation and calculations for Sharpe Ratio, are quite heavy if we want to run for a big enough population age. This way, we can take advantage of bacalhau.
+The simulation and calculations for Sharpe Ratio, are quite heavy if we want to run for a big enough population age. This way, we can take advantage of `bacalhau`. Using `bacalhau` to run these algorithms also ensures we have a verifiable and transparent strategy definition.
 
 ```bash
 docker build -t finiam/matusalem-genetic2 . --platform linux/amd64
