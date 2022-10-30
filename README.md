@@ -8,9 +8,9 @@
 * Starknet contract: https://goerli-2.voyager.online/contract/0x0092bf28825b91673695eb6b34f009e1194be3a359aac1a88db54e592e6cfe66
 * Treasury contract: https://goerli.etherscan.io/address/0x727caaeaEfa73D57ffF4Bbf180968210Ace73BF1
 * $OLD ERC-20 contract: https://goerli.etherscan.io/address/0x7755E1DF5bfa6e06BBDEB7B2d9C2a8DE28c7309c
-* Strategy NFT ERC-271 contract:  https://goerli.etherscan.io/address/0x15CC36D05fF82495Df3ECb161dfb78c6ff514193
+* Strategy NFT ERC-721 contract:  https://goerli.etherscan.io/address/0x15CC36D05fF82495Df3ECb161dfb78c6ff514193
 
-A defined contribution, closed, pension fund in ETH. It allocates funds using a strategy defined by a third-party, using a "Chicken Bonds"-like mechanism, with transparent risk analysis.
+A defined contribution, closed, pension fund in ETH. It allocates funds using a strategy defined by a third-party, using a "Chicken Bonds"-like mechanism, with transparent risk analysis and strategy optimization..
 
 ## Protocol
 
@@ -105,9 +105,11 @@ bacalhau docker run finiam/matusalem-genetic2
 
 - We went way over our heads with this project so we struggled to have a deliverable by the end of the event;
 - We are missing a way to trigger the Treasury contract on L1;
+- We couldn't get funds on the new Starknet testnet;
+- We faked the frontend wallet transactions, using sign insteads to exemplify the flow.
 - We've just implemented a bare bones approach to the protocol that works for a simplified example; 
 - The Genetic Algorithms work as expected and output a good result if we're using the overall expected returns for the portfolio, as the fitness function. However, when using the Sharpe Ratio as the fitness functions, the population doesn't evolve as expected, and it outputs a poor result;
-[...]
+
 
 ## Future Work
 
@@ -116,4 +118,3 @@ bacalhau docker run finiam/matusalem-genetic2
 - Create a Manager to trigger rebalance functions and periodically trigger the consumption of L2 messages;
 - Generalize the implementation from the implemeted example to the expected protocol behaviour;
 - Actually integrate with the yield generating assets instead of mocks (i.e. Rocket Pool Staking, Euler Finance, Uniswap, etc);
-[...]
