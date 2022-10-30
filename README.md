@@ -79,3 +79,5 @@ bacalhau docker run finiam/matusalem-genetic2
 - The Genetic Algorithms work as expected and output a good result if we're using the overall expected returns for the portfolio, as the fitness function. However, when using the Sharpe Ratio as the fitness functions, the population doesn't evolve as expected, and it outputs a poor result.
 
 ## Future Work
+
+- Create Backend Manager to trigger rebalance functions and periodically trigger the consumption of L2 messages.
