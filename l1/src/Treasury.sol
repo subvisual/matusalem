@@ -47,13 +47,7 @@ contract Treasury {
         require(msg.value > (0.02 ether));
         uint256 id = strategies.mint(msg.sender, strategy);
         strategyPledge[id] = msg.value;
-        return id;
-    }
-
-    function submitStrategy(uint256 id) public returns (uint256) {
-        require(msg.sender == strategies.ownerOf(id));
         emit SubmitedStrategy(id, msg.sender);
-
         return id;
     }
 
