@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button from "$lib/components/Button.svelte";
-  import Input from "$lib/components/Input.svelte";
   import { account } from "$lib/svark";
 
   let status: "idle" | "error" = "idle";
@@ -18,17 +17,7 @@
   class="bg-white px-16 py-10 pb-14"
   on:submit|preventDefault={withdraw}
 >
-  <h4 class="mb-2">Wallet address</h4>
-  <Input
-    type="text"
-    placeholder="Type here..."
-  />
-  <h4 class="mb-2 mt-6">Amount</h4>
-  <Input
-    type="number"
-    placeholder="Type here..."
-  />
-  <div class="mt-6" />
+  <p class="mb-4">Withdraw all my funds</p>
   <Button
     color={status === "idle" ? "lightPurple" : "orange"}
     type="submit"
