@@ -2,6 +2,7 @@
   import { ethers } from "ethers";
   import MetaMask from "$lib/components/icons/MetaMask.svelte";
   import truncateAddress from "$lib/utils/truncateAddress";
+  import metamask from "$lib/stores/metamask";
 
   let userAddress: string | null = null;
 
@@ -13,6 +14,8 @@
       const signer = provider.getSigner();
 
       userAddress = await signer.getAddress();
+
+      metamask.set(signer);
     } else {
       alert("No ethereum Wallet found");
     }

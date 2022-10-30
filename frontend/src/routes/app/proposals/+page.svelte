@@ -4,20 +4,6 @@
   import Card from "$lib/components/Card.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
   import proposals from "$lib/stores/proposals";
-  import MetaMaskConnect from "$lib/components/MetaMaskConnect.svelte";
-
-  // move function
-  export const handleVote = (ev: MouseEvent, id: string, voted: boolean) => {
-    /* ev.preventDefault();
-    const index = proposals.findIndex((proposal) => proposal.id === id);
-
-    if (index < 0) return;
-
-    console.log(voted ? "unvote" : "vote");
-    proposals[index].voted = !proposals[index].voted; */
-  };
-
-  console.log($proposals)
 </script>
 
 <div class="flex items-start justify-between">
@@ -31,11 +17,7 @@
   </Button>
 </div>
 
-<div class="my-6">
-  <MetaMaskConnect />
-</div>
-
-<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5 mt-6">
   {#each $proposals as { id, submittedBy } (id)}
     <Card color="white">
       <a

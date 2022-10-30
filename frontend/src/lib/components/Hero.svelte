@@ -18,9 +18,9 @@
   let progress = 0;
 </script>
 
-<CheckeredBg class="mx-6">
+<CheckeredBg class="">
   <div
-    class="py-10 my-4 relative border-4 border-orange"
+    class="py-6 px-6 my-4 relative border-4 border-orange"
     style="background: #262525ee"
   >
     <div

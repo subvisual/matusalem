@@ -33,11 +33,11 @@
       </div>
     </div>
   </header>
+
+  <Hero />
 </div>
 
-<Hero />
-
-<section class="bg-orange py-20 text-beige">
+<section class="bg-orange py-20 text-beige mt-10">
   <h2 class="lg:max-w-2xl lg:mx-auto text-center">
     "Retirement: world's longest coffee break." Enjoy quality coffee.
   </h2>

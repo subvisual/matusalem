@@ -5,6 +5,8 @@
   import StratPieChart from "./StratPieChart.svelte";
   import { account } from "$lib/svark";
   import strats from "$lib/stores/strats";
+  import MetaMaskConnect from "$lib/components/MetaMaskConnect.svelte";
+  import metamask from "$lib/stores/metamask";
 
   export let assets: typeof bestOptions;
 
@@ -40,7 +42,7 @@
   }
 
   async function handleSubmit() {
-    await account.sign("Create new strategy");
+    await $metamask.signMessage("Create new strategy");
 
     strats.update((st) => [
       ...st,
@@ -53,6 +55,9 @@
   }
 </script>
 
+<div class="mt-4">
+  <MetaMaskConnect />
+</div>
 <form
   class="bg-white p-8 mt-8 flex"
   on:submit|preventDefault={handleSubmit}
