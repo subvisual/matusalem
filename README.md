@@ -106,7 +106,7 @@ bacalhau docker run finiam/matusalem-genetic2
 - We went way over our heads with this project so we struggled to have a deliverable by the end of the event;
 - We are missing a way to trigger the Treasury contract on L1;
 - We couldn't get funds on the new Starknet testnet;
-- We faked the frontend wallet transactions, using sign insteads to exemplify the flow.
+- We faked the frontend wallet transactions, using sign instead to exemplify the flow.
 - We've just implemented a bare bones approach to the protocol that works for a simplified example; 
 - The Genetic Algorithms work as expected and output a good result if we're using the overall expected returns for the portfolio, as the fitness function. However, when using the Sharpe Ratio as the fitness functions, the population doesn't evolve as expected, and it outputs a poor result;
 
