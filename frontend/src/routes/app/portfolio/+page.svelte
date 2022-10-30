@@ -40,7 +40,7 @@
 
 <div class="w-[30rem] mx-auto mb-10">
   <h3 class="text-center mb-4">Asset allocation</h3>
-  <DoughnutChart {...assets}><div>H</div></DoughnutChart>
+  <DoughnutChart {...assets} />
 </div>
 
 <div class="w-fit mx-auto mb-10">
