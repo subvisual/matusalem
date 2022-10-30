@@ -3,12 +3,15 @@ pragma solidity >= "0.8.0";
 import {Old} from "./Old.sol";
 import {Strategies} from "./Strategies.sol";
 import {IMockStake} from "./mock/IMockStake.sol";
+import {MockLido} from "./mock/MockLido.sol";
+import {MockRocketpool} from "./mock/MockRocketpool.sol";
+import {MockUniSwapV2} from "./mock/MockUniSwapV2.sol";
 import {IStarknetCore} from "./IStarknetCore.sol";
 
 enum ChickenState {
+    Egg,
     In,
-    Out,
-    Egg
+    Out
 }
 
 contract Treasury {
@@ -27,7 +30,7 @@ contract Treasury {
     Old public old;
     Strategies public strategies;
     IMockStake[] public assets;
-    IStarknetCore starknetCore;
+    IStarknetCore public starknetCore;
 
     event SubmitedStrategy(uint256 id, address strategist);
 
@@ -35,11 +38,22 @@ contract Treasury {
     uint256 constant MESSAGE_SET_STRATEGY = 1;
     uint256 constant MESSAGE_START = 2;
 
-    constructor(IMockStake[] memory _assets, IStarknetCore starknetCore_) {
+    constructor() {
+        MockLido mockLido = new MockLido();
+        MockRocketpool mockRocketpool = new MockRocketpool();
+        MockUniSwapV2 mockUniSwapV2 = new MockUniSwapV2();
+        IMockStake[] memory _assets = new IMockStake[](3);
+        _assets[0]=IMockStake(address(mockLido));
+        _assets[1]=IMockStake(address(mockRocketpool));
+        _assets[2]=IMockStake(address(mockUniSwapV2));
         old = new Old();
         strategies = new Strategies();
         assets = _assets;
-        starknetCore = starknetCore_;
+        starknetCore = IStarknetCore(0xa4eD3aD27c294565cB0DCc993BDdCC75432D498c);
+
+        StrategyPledgeLocked = true;
+        lockPeriod = 1669779861;
+        endPeriod = 2298253461;
     }
 
     function createStrategy(Strategies.Strategy memory strategy) public payable returns (uint256) {
@@ -66,7 +80,7 @@ contract Treasury {
         return true;
     }
 
-    function setStrategyFromL2(uint256 l2ContractAddress, uint256 strategyId) public returns (bool) {
+    function setStrategyFromL2(uint256 l2ContractAddress, uint256 strategyId) public {
         uint256[] memory payload = new uint256[](2);
         payload[0] = MESSAGE_SET_STRATEGY;
         payload[1] = strategyId;
@@ -81,7 +95,7 @@ contract Treasury {
         StrategyPledgeLocked = false;
     }
 
-    function applyStrategyFromL2(uint256 l2ContractAddress) public returns (bool) {
+    function applyStrategyFromL2(uint256 l2ContractAddress) public {
         uint256[] memory payload = new uint256[](1);
         payload[0] = MESSAGE_START;
 
@@ -98,7 +112,7 @@ contract Treasury {
         uint256 assets_length = assets.length;
         // stake() foreach asset
         for (; i < assets_length; ++i) {
-            assets[i].stake{value: (currentInvestment * strategy[i])/100}();
+            assets[i].stake{value: (currentInvestment * strategy[i]) / 100}();
         }
     }
 
@@ -207,6 +221,6 @@ contract Treasury {
         strategies.burn(id);
         uint256 amount = strategyPledge[chosenStrategy];
         payable(msg.sender).transfer(amount);
-        strategyPledge[chosenStrategy] = 0 ;
+        strategyPledge[chosenStrategy] = 0;
     }
 }
