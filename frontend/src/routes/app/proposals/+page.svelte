@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button from "$lib/components/Button.svelte";
-  import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import Card from "$lib/components/Card.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
   import proposals from "$lib/stores/proposals";
@@ -8,13 +7,6 @@
 
 <div class="flex items-start justify-between">
   <h2>Proposals</h2>
-  <Button
-    color="lightGreen"
-    href="/app/proposals/new"
-  >
-    <NewIcon slot="leftIcon" />
-    <h4 class="uppercase">Add Proposal</h4>
-  </Button>
 </div>
 
 <div class="flex flex-col gap-5 mt-6">

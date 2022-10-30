@@ -16,7 +16,7 @@
     type="text"
     placeholder="Type here..."
   />
-  <h4 class="mb-2 mt-6">Amount address</h4>
+  <h4 class="mb-2 mt-6">Amount</h4>
   <Input
     type="number"
     placeholder="Type here..."
