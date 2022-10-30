@@ -1,5 +1,5 @@
 %lang starknet
-from src.main import l1_address, set_l1_address, create_proposal, proposal_list, get_proposal, proposal_counter
+from src.main import l1_address, set_l1_address, create_proposal, proposal_list, get_proposal, proposal_counter, vote
 from starkware.cairo.common.cairo_builtins import HashBuiltin
 from starkware.cairo.common.uint256 import Uint256
 
@@ -20,6 +20,25 @@ func __setup__() {
 
     return ();
 }
+
+@external
+func test_vote{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashBuiltin*}() {
+  alloc_locals;
+  create_proposal(23);
+
+  let (prop) = get_proposal(1);
+  assert prop.strategy_id = 23;
+  assert prop.finished = 0;
+
+  vote(1, 1);
+
+  let (prop_ended) = get_proposal(1);
+  assert prop.strategy_id = 23;
+  //assert prop.finished = 1;
+
+  return ();
+}
+
 
 @external
 func test_create_proposal{syscall_ptr: felt*, range_check_ptr, pedersen_ptr: HashBuiltin*}() {
