@@ -13,7 +13,6 @@ enum ChickenState {
 
 contract Treasury {
     uint256 public lockedBucket;
-    //public uint256 currentInvestment;
     uint256 public recurrentAmount;
     uint256 public reserveBucket;
     uint256 public FundVirtualOldBalance;
