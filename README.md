@@ -45,7 +45,7 @@ bacalhau docker run finiam/matusalem-analysis15
 
 ### Developing the Genetic Algorithms
   
-Most part of the code is from the book: "Genetic Algorithms in Elixir" by Sean Moriarity [check here](https://pragprog.com/titles/smgaelixir/genetic-algorithms-in-elixir/). It has a bunch of updates in order to adapt to optimizing to asset weights and the fitness function to calculate the Sharpe Ratio.
+Most part of the code is inspired in the book: "Genetic Algorithms in Elixir" by Sean Moriarity [check here](https://pragprog.com/titles/smgaelixir/genetic-algorithms-in-elixir/). It has a bunch of updates in order to adapt to optimizing to asset weights and the fitness function to calculate the Sharpe Ratio.
 
 ### Running the simulation on Bacalhau
 
