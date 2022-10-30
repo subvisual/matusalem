@@ -129,6 +129,9 @@ contract Treasury {
     function chickenIn() public {
         require(block.timestamp > lockPeriod);
         require(msg.sender == strategies.ownerOf(chosenStrategy));
+        require(StrategistChickenState == ChickenState.Egg);
+
+        StrategistChickenState = ChickenState.In;
 
         StrategistReserveClaim = 0;
 
@@ -142,7 +145,9 @@ contract Treasury {
     function chickenOut() public {
         require(block.timestamp > lockPeriod);
         require(msg.sender == strategies.ownerOf(chosenStrategy));
+        require(StrategistChickenState == ChickenState.Egg);
 
+        StrategistChickenState = ChickenState.Out;
         payable(msg.sender).transfer(StrategistReserveClaim);
 
         StrategistReserveClaim = 0;
@@ -196,5 +201,14 @@ contract Treasury {
 
         FundVirtualOldBalance = 0;
         StrategistVirtualOldBalance = 0;
+    }
+
+    function unpledge(uint256 id) public {
+        require(StrategyPledgeLocked == false);
+        require(msg.sender == strategies.ownerOf(id));
+        strategies.burn(id);
+        uint256 amount = strategyPledge[chosenStrategy];
+        payable(msg.sender).transfer(amount);
+        strategyPledge[chosenStrategy] = 0 ;
     }
 }
