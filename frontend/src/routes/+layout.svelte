@@ -5,7 +5,7 @@
   import "@fontsource/ibm-plex-mono/400.css";
   import "src/assets/app.css";
 
-  import image from "src/assets/Social.png";
+  import image from "$lib/images/Social.png";
 </script>
 
 <svelte:head>
