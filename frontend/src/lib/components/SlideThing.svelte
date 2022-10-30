@@ -69,7 +69,7 @@
     filter: drop-shadow(10px 10px 0 #05535f);
   }
   .Slider-Knob {
-    cursor: pointer;
+    cursor: grab;
     display: block;
     position: absolute;
     left: 0px;
@@ -77,6 +77,12 @@
     margin: auto;
     width: 100%;
     height: 32px;
+  }
+  .Slider-Knob img {
+    transform: scale(1.3);
+  }
+  .Slider-Knob img:hover {
+    transform: scale(1.2);
   }
   @keyframes pulse {
     from {
