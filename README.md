@@ -2,6 +2,8 @@
 
 ## Frontend
 
+https://glittery-narwhal-c50b36.netlify.app/
+
 ## Funds
 
 ## Asset Analysis
@@ -42,10 +44,8 @@ bacalhau docker run finiam/matusalem-analysis15
 ## Genetic Algorithms
 
 ### Developing the Genetic Algorithms
-
-
-1. Use that data to run Genetic Algorithms to optimize for Sharpe Ratio
-  1.1 Explain that most part of the code is from the book: "Genetic Algorithms in Elixir" from Sean Moriarity 
+  
+Most part of the code is from the book: "Genetic Algorithms in Elixir" by Sean Moriarity [check here](https://pragprog.com/titles/smgaelixir/genetic-algorithms-in-elixir/). It has a bunch of updates in order to adapt to optimizing to asset weights and the fitness function to calculate the Sharpe Ratio.
 
 ### Running the simulation on Bacalhau
 
@@ -57,6 +57,7 @@ docker push finiam/matusalem-genetic2
 
 bacalhau docker run finiam/matusalem-genetic2
 
+# example result that you can check
 # bacalhau get 4db92773-135f-4053-b7a7-292b2dc36c95
 # bacalhau describe 4db92773-135f-4053-b7a7-292b2dc36c95
 ```
