@@ -1,138 +1,182 @@
-pragma solidity ^0.8.15;
+pragma solidity >= "0.8.0";
 
-   enum ChickenState{ In, Out, Egg}
-contract Treasury  is Strategy, Old{
-  public uint256 lockedBucket;
-  //public uint256 currentInvestment;
-  public uint256 recurrentAmount;
-  public uint256 reserveBucket;
-  public uint256 FundVirtualOldBalance;
-  public uint256 StrategistVirtualOldBalance;
-  public uint256 StrategistReserveClaim;
-  public ChickenState StrategistChickenState;
-  public uint256 chosenStrategy;
-  public mapping(uint256 =>uint256) strategyPledge;
-  public bool StrategyPledgeLocked;
-  public uint256 lockPeriod;
-  public uint256 endPeriod;
+import {Old} from "./Old.sol";
+import {Strategies} from "./Strategies.sol";
+import {IMockStake} from "./mock/IMockStake.sol";
 
-  function createStrategy() payable (return uint256) {
-    require(msg.amount > 0.02);
-    uint256 id = mint();
-    strategyPledge[id] = msg.amount;
+enum ChickenState {
+    In,
+    Out,
+    Egg
+}
 
-  }
+contract Treasury {
+    uint256 public lockedBucket;
+    //public uint256 currentInvestment;
+    uint256 public recurrentAmount;
+    uint256 public reserveBucket;
+    uint256 public FundVirtualOldBalance;
+    uint256 public StrategistVirtualOldBalance;
+    uint256 public StrategistReserveClaim;
+    ChickenState public StrategistChickenState;
+    uint256 public chosenStrategy;
+    mapping(uint256 => uint256) public strategyPledge;
+    bool public StrategyPledgeLocked;
+    uint256 public lockPeriod;
+    uint256 public endPeriod;
+    Old public old;
+    Strategies public strategies;
+    IMockStake[] public assets;
 
-  function submitStrategy(uint256 id) (return uint256) {
+    event SubmitedStrategy(uint256 id, address strategist);
 
+    constructor(IMockStake[] memory _assets) {
+        old = new Old();
+        strategies = new Strategies();
+        assets = _assets;
+    }
 
-  }
-  function depositFundsFromL2(uint256 amount) (returns bool) {
-    lockedBucket += amount;
-    recurrentAmount = amount;
+    function createStrategy(Strategies.Strategy memory strategy) public payable returns (uint256) {
+        require(msg.value > (0.02 ether));
+        uint256 id = strategies.mint(msg.sender, strategy);
+        strategyPledge[id] = msg.value;
+        return id;
+    }
 
-    // update FundVirtualOldBalancce += amount
-  }
-  function setStrategyFromL2(uint256 strategyId) (returns bool) {
-    chosenStrategy = strategyId;
-    reserveBucket = strategyPledge[id];
-    StrategistReserveClaim = strategyPledge[id];
-    StrategistVirtualOldBalancce += strategyPledge[id]
-    strategyPledge[id] = 0 ;
-    StrategyPledgeLocked = false;
+    function submitStrategy(uint256 id) public returns (uint256) {
+        require(msg.sender == strategies.ownerOf(id));
+        emit SubmitedStrategy(id, msg.sender);
 
-  }
+        return id;
+    }
 
-  function applyStrategyFromL2() (returns bool) {
+    function depositFundsFromL2(uint256 amount) public returns (bool) {
+        lockedBucket += amount;
+        recurrentAmount = amount;
 
-    //currentInvestment = lockedBucket;
-    //get erc721 strategy array
-    // stake() foreach asset
+        // update FundVirtualOldBalance += amount
+        FundVirtualOldBalance += amount;
 
-  }
+        return true;
+    }
 
-  function applyStrategyFromBackend() (returns bool) {
+    function setStrategyFromL2(uint256 strategyId) public returns (bool) {
+        chosenStrategy = strategyId;
+        reserveBucket = strategyPledge[chosenStrategy];
+        StrategistReserveClaim = strategyPledge[chosenStrategy];
+        StrategistVirtualOldBalance += strategyPledge[chosenStrategy];
+        strategyPledge[chosenStrategy] = 0;
+        StrategyPledgeLocked = false;
+    }
 
-  }
+    function applyStrategyFromL2() public returns (bool) {
+        //currentInvestment = lockedBucket;
+        uint256 currentInvestment = lockedBucket;
+        //get erc721 strategy array
+        uint256[3] memory strategy;
 
-  function rebalance(uint256[3] sell,uint256[3] buy, uint256 yieldAmount) {
+        strategy = strategies.getStrategy(chosenStrategy);
 
-    //sell for first array amounts
-    //buy for secund array amounts  + erc721 strategy array with recurrentAmount
-    //transfer yieldAmount to reserve
-    // update FundVirtualOldBalancce += 0.8 * yieldAmount
-    // update StrategistVirtualOldBalancce += 0.2 * yieldAmount
-  }
+        uint256 i = 0;
+        uint256 assets_length = assets.length;
+        // stake() foreach asset
+        for (; i < assets_length; ++i) {
+            assets[i].stake{value: currentInvestment * strategy[i]}();
+        }
+    }
 
-  function chickenIn(){
-    require(block.timestamp > lockPeriod);
-    require(msg.sender == ownerOf[strategyId]);
-    StrategistReserveClaim  = 0;
-    uint balance = StrategistVirtualOldBalance;
-    old.mint(balance);
-    StrategistVirtualOldBalance = 0;
+    function rebalance(uint256[3] memory sell, uint256[3] memory buy, uint256 yieldAmount) public {
+        //sell for first array amounts
 
-  }
+        uint256 i = 0;
+        uint256 assets_length = assets.length;
+        for (; i < assets_length; ++i) {
+            assets[i].unstake(sell[i]);
+        }
+        //buy for secund array amounts  + erc721 strategy array with recurrentAmount
 
-  function chickenOut(){
-    require(block.timestamp > lockPeriod);
-    require(msg.sender == ownerOf[strategyId]);
-    transfer(StrategistReserveClaim, ownerOf[strategyId]);
-    StrategistReserveClaim  = 0;
-    StrategistVirtualOldBalance = 0;
-  }
+        i = 0;
+        for (; i < assets_length; ++i) {
+            assets[i].stake{value: buy[i]}();
+        }
+        //transfer yieldAmount to reserve
 
-  function claimOld(uint256 amount ) {
+        reserveBucket += yieldAmount;
+        // update FundVirtualOldBalance += 0.8 * yieldAmount
+        FundVirtualOldBalance += (80 * yieldAmount) / 100;
+        // update StrategistVirtualOldBalance += 0.2 * yieldAmount
+        StrategistVirtualOldBalance += (20 * yieldAmount) / 100;
+    }
 
-    uint256 virtualOld = FundVirtualOldBalance + StrategistVirtualOldBalance;
-    uint old = Old.totalSupply ;
+    function chickenIn() public {
+        require(block.timestamp > lockPeriod);
+        require(msg.sender == strategies.ownerOf(chosenStrategy));
 
-    //confirmar que nao vai para valores negativos
-    uint256 etherToTransfer = (reserveBucket / virtualOld + old) *amount ;
+        StrategistReserveClaim = 0;
 
-    reserveBucket -= etherToTransfer;
+        uint256 balance = StrategistVirtualOldBalance;
 
-    old.transfer(amount, msg.sender, address(this));
-    transfer(etherToTransfer, msg.sender);
+        old.mint(msg.sender, balance);
 
-  }
+        StrategistVirtualOldBalance = 0;
+    }
 
-  function retire(){
-  require(block.timestamp > endPeriod);
-  //vende assets todos
-  uint256 totalSaleETHAmount = 100;//sell();
+    function chickenOut() public {
+        require(block.timestamp > lockPeriod);
+        require(msg.sender == strategies.ownerOf(chosenStrategy));
 
-  transfer(StrategistReserveClaim, ownerOf[strategyId]);
+        payable(msg.sender).transfer(StrategistReserveClaim);
 
-  totalSaleETHAmount  -= StrategistReserveClaim
+        StrategistReserveClaim = 0;
+        StrategistVirtualOldBalance = 0;
+    }
 
-  StrategistReserveClaim = 0 ;
-  //bridge locked to l2  transfer(lockedBucket)
+    function claimOld(uint256 amount) public {
+        uint256 virtualOld = FundVirtualOldBalance + StrategistVirtualOldBalance;
+        uint256 oldCurrentSupply = old.totalSupply();
 
-  totalSaleETHAmount  -= lockedBucket;
+        uint256 etherToTransfer = (reserveBucket / virtualOld + oldCurrentSupply) * amount;
 
-  reserveBucket += totalSaleETHAmount;
+        reserveBucket -= etherToTransfer;
 
-  // update FundVirtualOldBalancce += 0.8 * totalSaleETHAmount
-  // update StrategistVirtualOldBalancce += 0.2 * totalSaleETHAmount
+        old.transfer(address(this), amount);
+        payable(msg.sender).transfer(etherToTransfer);
+    }
 
+    function retire() public {
+        require(block.timestamp > endPeriod);
+        //vende assets todos
+        uint256 totalSaleETHAmount = 100;//sell();
 
-    uint256 virtualOld = FundVirtualOldBalance + StrategistVirtualOldBalance;
-    uint old = Old.totalSupply ;
+        payable(strategies.ownerOf(chosenStrategy)).transfer(StrategistReserveClaim);
 
-    //confirmar que nao vai para valores negativos
-    uint256 etherToTransferFund = (reserveBucket / virtualOld + old) *FundVirtualOldBalance;
-    uint256 etherToTransferStrategist = (reserveBucket / virtualOld + old) *StrategistVirtualOldBalance;
+        totalSaleETHAmount  -= StrategistReserveClaim;
 
-    reserveBucket -= etherToTransferFund;
-    reserveBucket -= etherToTransferStrategist;
+        StrategistReserveClaim = 0 ;
 
-//bridge para l2 etherToTransferFund
-    transfer(etherToTransferStrategist, ownerof[StrategyId]);
+        totalSaleETHAmount  -= lockedBucket;
 
-    FundVirtualOldBalance = 0;
-    StrategistVirtualOldBalance = 0;
+        reserveBucket += totalSaleETHAmount;
 
-  }
+        // update FundVirtualOldBalance += 0.8 * totalSaleETHAmount
+        FundVirtualOldBalance += (80 * totalSaleETHAmount) / 100;
+        // update StrategistVirtualOldBalance += 0.2 * totalSaleETHAmount
+        StrategistVirtualOldBalance += (20 * totalSaleETHAmount) / 100;
 
+          uint256 virtualOld = FundVirtualOldBalance + StrategistVirtualOldBalance;
+          uint old = old.totalSupply() ;
+
+          //confirmar que nao vai para valores negativos
+          uint256 etherToTransferFund = (reserveBucket / virtualOld + old) *FundVirtualOldBalance;
+          uint256 etherToTransferStrategist = (reserveBucket / virtualOld + old) *StrategistVirtualOldBalance;
+
+          reserveBucket -= etherToTransferFund;
+          reserveBucket -= etherToTransferStrategist;
+
+        //bridge para l2 etherToTransferFund
+        payable(strategies.ownerOf(chosenStrategy)).transfer(etherToTransferStrategist);
+
+          FundVirtualOldBalance = 0;
+          StrategistVirtualOldBalance = 0;
+    }
 }

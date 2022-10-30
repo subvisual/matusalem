@@ -1,6 +1,7 @@
-contract MockLido {
+pragma solidity >=0.8.0;
 
-  function stake() payable {
+import {MockStake} from "./MockStake.sol";
 
-  }
+contract MockLido is MockStake {
+    constructor() MockStake() {}
 }

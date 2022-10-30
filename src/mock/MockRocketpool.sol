@@ -1,6 +1,7 @@
-contract MockRocketpool {
+pragma solidity >=0.8.0;
 
-  function stake() payable {
+import {MockStake} from "./MockStake.sol";
 
-  }
+contract MockRocketpool is MockStake {
+    constructor() MockStake() {}
 }
