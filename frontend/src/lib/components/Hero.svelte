@@ -14,67 +14,44 @@
   let spinning = false;
   let sx = 0;
   let progressDone = false;
-  let onPrize = false;
   let timeout: ReturnType<typeof setTimeout>;
   let progress = 0;
-
-  /* function handleMM(event: MouseEvent) {
-    sx = event.clientX;
-    const rect = sliderEl.getBoundingClientRect();
-
-    const sliderEnd = rect.y + rect.height;
-    const maxY = rect.height - 120;
-
-    const moved = sliderEnd - event.clientY - 56;
-
-    if (moved < 20) {
-      sx = 0;
-      spinning = false;
-    } else if (moved > maxY) {
-      sx = maxY;
-      spinning = false;
-      progressDone = true;
-
-      timeout = setTimeout(() => {
-        if (!onPrize) progressDone = false;
-      }, 3000);
-    } else {
-      spinning = true;
-      progressDone = false;
-      sx = moved;
-    }
-
-    saturate = (sx * 1) / maxY;
-    overlayOpacity = (sx * 1) / maxY;
-  } */
 </script>
 
-<div >
-  <CheckeredBg class="py-10 mt-4 relative">
+<CheckeredBg class="mx-6">
+  <div
+    class="py-10 my-4 relative border-4 border-orange"
+    style="background: #262525ee"
+  >
     <div
       class="grid lg:grid-rows-2 lg:grid-cols-4 gap-10 w-fit max-w-screen-xl mx-10 lg:mx-auto"
     >
-      <div class="relative eth-container">
+      <div class="relative img-wrap">
         <img
           src={image1}
           alt="old person 1"
+          style="filter: drop-shadow(0px 0px {progress}px #ffeacf)"
         />
       </div>
-      <div class="relative eth-container">
+      <div class="relative img-wrap">
         <img
           src={image2}
           alt="old person 2"
+          style="filter: drop-shadow(0px 0px {progress}px #b6e8b6)"
         />
       </div>
       <div class="hidden lg:flex row-span-2 justify-between self-center">
         <div class={spinning ? "hourglass-wrapper spin" : "hourglass-wrapper"}>
           <Hourglass />
         </div>
-        <SlideThing
-          bind:value={sx}
-          bind:mid={spinning}
-          bind:progress
-        />
+        <div>
+          <SlideThing
+            bind:value={sx}
+            bind:mid={spinning}
+            bind:progress
+            bind:progressDone
+          />
+        </div>
 
         <div
           class={spinning
@@ -84,34 +61,45 @@
           <Hourglass />
         </div>
       </div>
-
-      <img
-        class="hidden lg:block"
-        src={image3}
-        alt="old person 1"
-      />
-      <img
-        src={image4}
-        alt="old person 1"
-        class="hidden lg:block"
-      />
-      <img
-        src={image5}
-        alt="old person 1"
-        class="hidden lg:block"
-      />
-      <img
-        src={image6}
-        alt="old person 1"
-        class="hidden lg:block"
-      />
+      <div class="relative img-wrap">
+        <img
+          class="hidden lg:block"
+          src={image3}
+          alt="old person 1"
+          style="filter: drop-shadow(0px 0px {progress}px #ffeacf)"
+        />
+      </div>
+      <div class="relative img-wrap">
+        <img
+          src={image4}
+          alt="old person 1"
+          class="hidden lg:block"
+          style="filter: drop-shadow(0px 0px {progress}px #ffeacf)"
+        />
+      </div>
+      <div class="relative img-wrap">
+        <img
+          src={image5}
+          alt="old person 1"
+          class="hidden lg:block"
+          style="filter: drop-shadow(0px 0px {progress}px #b6e8b6)"
+        />
+      </div>
+      <div class="relative img-wrap">
+        <img
+          src={image6}
+          alt="old person 1"
+          class="hidden lg:block"
+          style="filter: drop-shadow(0px 0px {progress}px #b6e8b6)"
+        />
+      </div>
     </div>
 
     {#if spinning}
       <h2
-        class="absolute inset-0 m-auto text-center pointer-events-none text-black h-fit flicker tracking-wide"
+        class="absolute inset-0 m-auto text-center pointer-events-none text-lightGreen h-fit flicker tracking-wide"
       >
-        Investing...
+        Investing {Math.round(progress)}% ...
       </h2>
     {/if}
 
@@ -121,11 +109,9 @@
         on:mouseenter={() => {
           clearTimeout(timeout);
           progressDone = true;
-          onPrize = true;
         }}
         on:mouseleave={() => {
           progressDone = false;
-          onPrize = false;
         }}
       >
         <div class="prize-flicker">
@@ -139,10 +125,18 @@
         </Button>
       </div>
     {/if}
-  </CheckeredBg>
-</div>
+  </div>
+</CheckeredBg>
 
+<!-- 
+  #ffeacf
+  #b6e8b6
+ -->
 <style>
+  .img-wrap {
+    filter: drop-shadow(4px 4px 0px #fa9579ee);
+  }
+
   @keyframes pulse {
     from {
       transform: scale(0.9);
@@ -189,7 +183,7 @@
 
   .flicker {
     animation: flicker 0.8s infinite;
-    filter: drop-shadow(4px 4px 0px #d8fbd7);
+    filter: drop-shadow(4px 4px 0px #232323);
   }
   .prize {
     filter: drop-shadow(4px 4px 0px #eac0e9);
