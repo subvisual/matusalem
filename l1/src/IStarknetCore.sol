@@ -1,3 +1,4 @@
+pragma solidity >=0.8.0;
 interface IStarknetCore {
     /**
      * Sends a message to an L2 contract.
