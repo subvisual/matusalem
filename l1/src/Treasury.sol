@@ -98,7 +98,7 @@ contract Treasury {
         uint256 assets_length = assets.length;
         // stake() foreach asset
         for (; i < assets_length; ++i) {
-            assets[i].stake{value: currentInvestment * strategy[i]}();
+            assets[i].stake{value: (currentInvestment * strategy[i])/100}();
         }
     }
 
@@ -188,7 +188,6 @@ contract Treasury {
         uint256 virtualOld = FundVirtualOldBalance + StrategistVirtualOldBalance;
         uint256 oldSupply = old.totalSupply();
 
-        //confirmar que nao vai para valores negativos
         uint256 etherToTransferFund = (reserveBucket / virtualOld + oldSupply) * FundVirtualOldBalance;
         uint256 etherToTransferStrategist = (reserveBucket / virtualOld + oldSupply) * StrategistVirtualOldBalance;
 
