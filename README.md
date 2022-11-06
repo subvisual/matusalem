@@ -4,7 +4,7 @@
 
 (futuristic hedge fund trader)
 
-* Website: https://glittery-narwhal-c50b36.netlify.app/
+* Website: https://matusalem.finiam.com/
 * Starknet contract: https://goerli-2.voyager.online/contract/0x0092bf28825b91673695eb6b34f009e1194be3a359aac1a88db54e592e6cfe66
 * Treasury contract: https://goerli.etherscan.io/address/0x727caaeaEfa73D57ffF4Bbf180968210Ace73BF1
 * $OLD ERC-20 contract: https://goerli.etherscan.io/address/0x7755E1DF5bfa6e06BBDEB7B2d9C2a8DE28c7309c
