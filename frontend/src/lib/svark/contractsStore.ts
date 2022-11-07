@@ -30,10 +30,8 @@ export default contractsStore;
 
 accountStore.subscribe(({ account }) => {
   Object.entries(get(contractsStore)).forEach(([_, contract]) => {
-    contract.update((data) => {
-      data.providerOrAccount = account;
-
-      return data;
-    });
+    contract.update(
+      (data) => ({ ...data, providerOrAccount: account } as Contract)
+    );
   });
 });
