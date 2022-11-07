@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+  import type { Abi, AccountInterface } from "starknet";
+  import { get } from "svelte/store";
   import Table from "$lib/components/Table.svelte";
   import Card from "$lib/components/Card.svelte";
   import { deposits } from "$lib/data/deposits";
@@ -6,6 +8,15 @@
   import truncateAddress from "$lib/utils/truncateAddress";
   import balance from "$lib/stores/balance";
   import DepositForm from "$lib/components/DepositForm.svelte";
+  import { contract, account } from "$lib/svark";
+  import contractABI from "$lib/data/starknetContractAbi.json";
+
+  contract("starknet", {
+    contractAddress:
+      "0x0092bf28825b91673695eb6b34f009e1194be3a359aac1a88db54e592e6cfe66",
+    abi: contractABI as Abi,
+    providerOrAccount: get(account).account as AccountInterface,
+  });
 </script>
 
 {#if !$balance}
