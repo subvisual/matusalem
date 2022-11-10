@@ -6,7 +6,6 @@
   import StratPieChart from "./StratPieChart.svelte";
   import { account } from "$lib/svark";
   import strats from "$lib/stores/strats";
-  import MetaMaskConnect from "$lib/components/MetaMaskConnect.svelte";
   import metamask from "$lib/stores/metamask";
 
   export let assets: typeof bestOptions;
@@ -58,9 +57,6 @@
   }
 </script>
 
-<div class="mt-4">
-  <MetaMaskConnect />
-</div>
 <form
   class="bg-white p-8 mt-8 flex"
   on:submit|preventDefault={handleSubmit}
