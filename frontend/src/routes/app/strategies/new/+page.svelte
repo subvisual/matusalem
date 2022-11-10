@@ -1,12 +1,12 @@
 <script lang="ts">
   import Button from "$lib/components/Button.svelte";
   import sleep from "$lib/utils/sleep";
-  import { bestOptions, blank } from "$lib/data/assetProposal";
-  import ProposalForm from "$lib/components/ProposalForm.svelte";
+  import { bestOptions, blank } from "$lib/data/assetStrategy";
+  import StrategyForm from "$lib/components/StrategyForm.svelte";
   import Hourglass from "$lib/components/icons/Hourglass.svelte";
 
   let loading = false;
-  let proposal = [] as typeof bestOptions;
+  let strategy = [] as typeof bestOptions;
 
   async function getOptions() {
     loading = true;
@@ -15,11 +15,11 @@
 
     loading = false;
 
-    proposal = bestOptions;
+    strategy = bestOptions;
   }
 
   async function blankSlate() {
-    proposal = blank;
+    strategy = blank;
   }
 </script>
 
@@ -33,9 +33,9 @@
   </div>
 {/if}
 
-{#if proposal.length > 0}
-  <ProposalForm assets={proposal} />
-{:else if !loading && proposal.length === 0}
+{#if strategy.length > 0}
+  <StrategyForm assets={strategy} />
+{:else if !loading && strategy.length === 0}
   <div class="flex my-8">
     <Button
       type="button"

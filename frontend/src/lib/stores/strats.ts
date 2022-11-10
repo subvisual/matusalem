@@ -54,7 +54,6 @@ export const initialState = [
   },
 ];
 
-/* const strats = writable(initialState); */
 const strats = writable<typeof initialState[0][]>([]);
 
 export default strats;
