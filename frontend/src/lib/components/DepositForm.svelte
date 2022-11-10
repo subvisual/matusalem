@@ -1,16 +1,19 @@
 <script lang="ts">
   import Button from "$lib/components/Button.svelte";
   import Input from "$lib/components/Input.svelte";
-  import { account } from "$lib/svark";
+  import { contracts } from "$lib/svark";
   import balance from "$lib/stores/balance";
+  import { parseInputAmountToUint256 } from "$lib/utils/parseInputAmountToUint256";
 
   let amount: any;
   $: valid = !!amount;
 
-  async function deposit() {
-    await account.sign(`Deposit ${amount} ETH`);
+  const starknetContract = $contracts.starknet;
 
-    balance.set(amount);
+  async function deposit() {
+    $starknetContract.monthly_deposit(
+      parseInputAmountToUint256(amount.toString())
+    );
   }
 </script>
 
@@ -26,6 +29,7 @@
   <Input
     type="number"
     placeholder="Type here..."
+    step="0.0001"
     bind:value={amount}
   />
   <div class="mt-6" />
