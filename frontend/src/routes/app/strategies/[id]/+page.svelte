@@ -1,32 +1,40 @@
 <script lang="ts">
+  import { BigNumber } from "ethers";
   import Button from "$lib/components/Button.svelte";
   import StratPieChart from "$lib/components/StratPieChart.svelte";
-  import proposals from "$lib/stores/proposals";
-  import strats from "$lib/stores/strats";
-  import { account } from "$lib/svark";
+  import { contracts } from "$lib/svark";
+  import { strategyTuple } from "$lib/utils/strategyTuple";
 
   export let data: any;
 
-  console.log(data)
+  const strategy = strategyTuple(data.data);
+
+  $: treasuryContract = $contracts.treasury;
 
   async function handleClick() {
-    await account.sign(`Propose strategy ${data.id}`);
+    const tuple = strategy.map((amount) => BigNumber.from(amount));
 
-    proposals.update((st) => [
-      ...st,
-      $strats.find((item) => item.id === data.id),
-    ]);
+    const { hash } = await $treasuryContract.createStrategy(tuple);
+
+    console.log(hash);
   }
 </script>
 
 <h3>Strategy #{data.id}</h3>
-<div class="w-2/4 mx-auto mb-8">
+<div
+  class="w-2/4 mx-auto mb-10
+"
+>
   <StratPieChart assets={data.data} />
 </div>
 <Button
+  class="mx-auto"
   color="lightGreen"
   type="button"
+  disabled={!$treasuryContract}
   on:click={handleClick}
 >
-  Propose this strategy
+  {$treasuryContract
+    ? "Propose this strategy"
+    : "You must be connected to propose strategies"}
 </Button>
