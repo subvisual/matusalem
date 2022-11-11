@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
   import Button from "$lib/components/Button.svelte";
-  import type { bestOptions } from "$lib/data/assetProposal";
+  import type { bestOptions } from "$lib/data/assetStrategy";
   import StratPieChart from "./StratPieChart.svelte";
   import { account } from "$lib/svark";
   import strats from "$lib/stores/strats";
-  import MetaMaskConnect from "$lib/components/MetaMaskConnect.svelte";
   import metamask from "$lib/stores/metamask";
 
   export let assets: typeof bestOptions;
@@ -52,12 +52,11 @@
         data: assets,
       },
     ]);
+
+    goto("/app/strategies");
   }
 </script>
 
-<div class="mt-4">
-  <MetaMaskConnect />
-</div>
 <form
   class="bg-white p-8 mt-8 flex"
   on:submit|preventDefault={handleSubmit}
@@ -108,7 +107,10 @@
 
   <div class="sticky top-2 h-fit">
     <StratPieChart {assets} />
-    <div class="mb-8">
+    <div
+      class="w-fit mx-auto flex flex-col gap-5
+     mt-6"
+    >
       {#if valid}
         <p>Looks good</p>
       {:else}
@@ -116,11 +118,11 @@
           >The total should be 100%. Right now it's {total}</p
         >
       {/if}
+      <Button
+        type="submit"
+        color="lightGreen">Submit</Button
+      >
     </div>
-    <Button
-      type="submit"
-      color="lightGreen">Submit</Button
-    >
   </div>
 </form>
 

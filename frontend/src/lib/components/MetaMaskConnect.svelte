@@ -3,8 +3,12 @@
   import MetaMask from "$lib/components/icons/MetaMask.svelte";
   import truncateAddress from "$lib/utils/truncateAddress";
   import metamask from "$lib/stores/metamask";
+  import contract from "$lib/stores/l1Contract";
+  import contractABI from "$lib/data/treasuryAbi.json";
 
   let userAddress: string | null = null;
+
+  $: $metamask?.getAddress().then((address) => (userAddress = address));
 
   async function connectWallet() {
     if (window.ethereum) {
@@ -13,9 +17,16 @@
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
 
-      userAddress = await signer.getAddress();
-
       metamask.set(signer);
+
+      // Create treasury contract with wallet signer
+      if (signer) {
+        contract("treasury", {
+          addressOrName: "0x727caaeaEfa73D57ffF4Bbf180968210Ace73BF1",
+          contractInterface: contractABI,
+          signerOrProvider: signer,
+        });
+      }
     } else {
       alert("No ethereum Wallet found");
     }

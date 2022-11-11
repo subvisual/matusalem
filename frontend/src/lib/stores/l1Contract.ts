@@ -1,8 +1,9 @@
-import type { Abi } from "starknet";
-import { AccountInterface, Contract, ProviderInterface } from "starknet";
 import { writable } from "svelte/store";
+import { Contract, Signer } from "ethers";
+import type { ContractInterface } from "ethers";
+import type { Provider } from "@ethersproject/abstract-provider";
 import type { Writable } from "svelte/store";
-import contractsStore from "./contractsStore";
+import contractsStore from "../svark/contractsStore";
 
 // Contract instance store. Adds the instance to the balances store, allowing the
 // contract to be accessed and methods called from anywhere in the app
@@ -10,9 +11,9 @@ import contractsStore from "./contractsStore";
 export type ContractStore = Writable<Contract>;
 
 type ContractProps = {
-  contractAddress: string;
-  abi: Abi;
-  providerOrAccount: ProviderInterface | AccountInterface;
+  addressOrName: string;
+  contractInterface: ContractInterface;
+  signerOrProvider?: Signer | Provider;
 };
 
 export default function contract(
@@ -20,7 +21,11 @@ export default function contract(
   config: ContractProps
 ): ContractStore {
   const store = writable<Contract>(
-    new Contract(config.abi, config.contractAddress, config.providerOrAccount)
+    new Contract(
+      config.addressOrName,
+      config.contractInterface,
+      config.signerOrProvider
+    )
   );
 
   contractsStore.addContract(name, store);

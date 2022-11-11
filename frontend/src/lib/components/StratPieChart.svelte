@@ -8,11 +8,9 @@
     ArcElement,
     CategoryScale,
   } from "chart.js";
-  import type { bestOptions } from "$lib/data/assetProposal";
+  import type { bestOptions } from "$lib/data/assetStrategy";
 
   export let assets: typeof bestOptions;
-
-  console.log(assets)
 
   $: pieData = {
     labels: assets.map((item) => item.name),
