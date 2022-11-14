@@ -6,10 +6,7 @@ export function load({ params: { id } }: { params: { id: string } }) {
   const data = get(strats)?.find((item) => item.id === id);
 
   if (data) {
-    return {
-      data: data.data,
-      id,
-    };
+    return data;
   }
 
   throw error(404, "Not found");
