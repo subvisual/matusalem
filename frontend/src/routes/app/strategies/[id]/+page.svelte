@@ -14,7 +14,9 @@
   }));
 
   async function handleClick() {
-    // create peoposal
+    const proposalData = await $starknetContract.create_proposal(data.id);
+
+    console.log(proposalData);
   }
 </script>
 
