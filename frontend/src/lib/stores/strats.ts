@@ -84,7 +84,7 @@ export const initialState = [
   // },
 ];
 
-type Strategy = typeof initialState[0];
+export type Strategy = typeof initialState[0];
 
 const strats = writable<Strategy[]>(initialState);
 
