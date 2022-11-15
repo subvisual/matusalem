@@ -3,6 +3,12 @@
   import Card from "$lib/components/Card.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
   import proposals from "$lib/stores/proposals";
+
+  function vote(ev: MouseEvent, propId: number) {
+    ev.preventDefault();
+
+    proposals.vote(propId);
+  }
 </script>
 
 <div class="flex items-start justify-between">
@@ -33,6 +39,7 @@
             <Button
               class="py-2 w-32 flex justify-start gap-4 mb-3"
               disabled={!!finished}
+              on:click={(ev) => vote(ev, proposal_id)}
             >
               <Hand
                 class="w-5 h-8"

@@ -3,7 +3,6 @@
   import Button from "$lib/components/Button.svelte";
   import ReturnArrow from "$lib/components/icons/ReturnArrow.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
-  import { account } from "$lib/svark";
   import type { Proposal } from "$lib/stores/proposals";
   import proposals from "$lib/stores/proposals";
   import type { Strategy } from "$lib/stores/strats";
@@ -50,7 +49,7 @@
       <Button
         class="py-2 w-32 flex justify-start gap-4 mb-3"
         color="white"
-        on:click={vote}
+        on:click={() => proposals.vote(proposal.proposal_id)}
       >
         <Hand
           class="w-5 h-8"
