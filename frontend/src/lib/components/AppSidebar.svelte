@@ -6,6 +6,7 @@
   import LockKey from "./icons/LockKey.svelte";
   import Mind from "./icons/Mind.svelte";
   import PaperAirplane from "./icons/PaperAirplane.svelte";
+  import Proposal from "./icons/Proposal.svelte";
 </script>
 
 <nav class="h-full sticky top-0">
@@ -15,7 +16,10 @@
       class="mb-6 nav-link"
       href="/app"
     >
-      <Home slot="leftIcon" />
+      <Home
+        slot="leftIcon"
+        class="fill-black"
+      />
       HOME
     </Button>
     <Button
@@ -23,7 +27,10 @@
       class="mb-6 nav-link"
       href="/app/proposals"
     >
-      <Mind slot="leftIcon" />
+      <Proposal
+        slot="leftIcon"
+        class="fill-black"
+      />
       Proposals
     </Button>
     <Button
@@ -31,7 +38,10 @@
       class="mb-6 nav-link"
       href="/app/strategies"
     >
-      <Mind slot="leftIcon" />
+      <Mind
+        slot="leftIcon"
+        class="fill-black"
+      />
       Strategies
     </Button>
     <Button
@@ -40,14 +50,20 @@
       class="mb-6 nav-link"
     >
       Deposit
-      <LockKey slot="leftIcon" />
+      <LockKey
+        slot="leftIcon"
+        class="fill-black"
+      />
     </Button>
     <Button
       color="white"
       href="/app/withdraw"
       class="mb-6 nav-link"
     >
-      <PaperAirplane slot="leftIcon" />
+      <PaperAirplane
+        slot="leftIcon"
+        class="fill-black"
+      />
       Withdraw
     </Button>
     <Button
@@ -55,7 +71,10 @@
       href="/app/portfolio"
       class="mb-6 nav-link"
     >
-      <Business slot="leftIcon" />
+      <Business
+        slot="leftIcon"
+        class="fill-black"
+      />
       Portfolio
     </Button>
   </CheckeredBg>

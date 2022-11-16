@@ -3,16 +3,20 @@
   import Button from "$lib/components/Button.svelte";
   import ReturnArrow from "$lib/components/icons/ReturnArrow.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
-  import { account } from "$lib/svark";
-  import truncateAddress from "$lib/utils/truncateAddress";
+  import type { Proposal } from "$lib/stores/proposals";
+  import proposals from "$lib/stores/proposals";
+  import type { Strategy } from "$lib/stores/strats";
+  import StratPieChart from "$lib/components/StratPieChart.svelte";
 
   export let data: any;
 
-  const { proposal } = data;
+  const { proposal, strategy }: { proposal: Proposal; strategy: Strategy } =
+    data;
 
-  async function vote() {
-    await account.sign("Vote for this");
-  }
+  const assets = strategy.data.map((amount: number, idx: number) => ({
+    name: ["rocket pool", "euler", "uniswap"][idx],
+    val: amount,
+  }));
 </script>
 
 <Button
@@ -28,28 +32,24 @@
 </Button>
 <div class="flex justify-between gap-8">
   <article>
-    <h2 class="mb-2">Proposal #{proposal.id}</h2>
+    <h2 class="mb-2">Proposal #{proposal.proposal_id}</h2>
     <div class="flex justify-between mb-14">
-      <p>{truncateAddress(proposal.submittedBy)}</p>
+      <p>by author</p>
       <div class="w-32 bg-lightGreen">
         <h4 class="text-center">active</h4>
       </div>
     </div>
     <div class="mb-10">
-      <h4>Summary</h4>
-      <p>A really good proposal</p>
+      <h3>Strategy #{strategy.id}</h3>
     </div>
-    <div>
-      <h4>Abstract</h4>
-      <p>Yes</p>
-    </div>
+    <StratPieChart {assets} />
   </article>
   <Card color="lightGreen">
     <div class="flex flex-col gap-4 items-center">
       <Button
         class="py-2 w-32 flex justify-start gap-4 mb-3"
         color="white"
-        on:click={vote}
+        on:click={() => proposals.vote(proposal.proposal_id)}
       >
         <Hand
           class="w-5 h-8"
@@ -57,12 +57,9 @@
         />
         <h4 class="uppercase">Vote</h4>
       </Button>
-
-      <!-- <p class="text-14 font-bold whitespace-nowrap">Created at: {createdAt}</p>
-      <p class="text-14 font-bold whitespace-nowrap">Ends at: {endsAt}</p>
-      <p class="text-14 font-bold whitespace-nowrap"
-        >Total votes: {totalVotes}</p
-      > -->
+      <span>
+        {proposal.vote_list.reduce((acc, curr) => acc + curr, 0)} / 8
+      </span>
     </div>
   </Card>
 </div>

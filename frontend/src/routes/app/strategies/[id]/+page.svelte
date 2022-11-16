@@ -1,40 +1,38 @@
 <script lang="ts">
-  import { BigNumber } from "ethers";
   import Button from "$lib/components/Button.svelte";
   import StratPieChart from "$lib/components/StratPieChart.svelte";
   import { contracts } from "$lib/svark";
-  import { strategyTuple } from "$lib/utils/strategyTuple";
+  import truncateAddress from "$lib/utils/truncateAddress";
 
   export let data: any;
 
-  const strategy = strategyTuple(data.data);
+  $: starknetContract = $contracts.starknet;
 
-  $: treasuryContract = $contracts.treasury;
+  const assets = data.data.map((amount: number, idx: number) => ({
+    name: ["rocket pool", "euler", "uniswap"][idx],
+    val: amount,
+  }));
 
   async function handleClick() {
-    const tuple = strategy.map((amount) => BigNumber.from(amount));
+    const proposalData = await $starknetContract.create_proposal(data.id);
 
-    const { hash } = await $treasuryContract.createStrategy(tuple);
-
-    console.log(hash);
+    console.log(proposalData);
   }
 </script>
 
 <h3>Strategy #{data.id}</h3>
-<div
-  class="w-2/4 mx-auto mb-10
-"
->
-  <StratPieChart assets={data.data} />
+<p>by {truncateAddress(data.submittedBy)}</p>
+<div class="w-2/4 mx-auto mb-10">
+  <StratPieChart {assets} />
 </div>
 <Button
   class="mx-auto"
   color="lightGreen"
   type="button"
-  disabled={!$treasuryContract}
+  disabled={!$starknetContract}
   on:click={handleClick}
 >
-  {$treasuryContract
+  {$starknetContract
     ? "Propose this strategy"
     : "You must be connected to propose strategies"}
 </Button>

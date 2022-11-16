@@ -4,6 +4,7 @@
   import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import Card from "$lib/components/Card.svelte";
   import metamask from "$lib/stores/metamask";
+  import truncateAddress from "$lib/utils/truncateAddress";
 </script>
 
 <div>
@@ -16,7 +17,7 @@
       href="/app/strategies/new"
     >
       <NewIcon slot="leftIcon" />
-      <h4 class="uppercase">Add Strategy</h4>
+      <h4 class="uppercase">Create Strategy</h4>
     </Button>
   {:else}
     <p class="w-full">Connect to your metamask wallet to create new strategy</p>
@@ -31,7 +32,7 @@
         class="w-full"
       >
         <h3>Strategy {strat.id}</h3>
-        <p class="text-sm">by: {strat.submittedBy}</p>
+        <p class="text-sm">by: {truncateAddress(strat.submittedBy)}</p>
       </a>
     </Card>
   {/each}

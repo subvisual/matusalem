@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { BigNumber } from "ethers";
   import { goto } from "$app/navigation";
   import Button from "$lib/components/Button.svelte";
   import type { bestOptions } from "$lib/data/assetStrategy";
   import StratPieChart from "./StratPieChart.svelte";
-  import { account } from "$lib/svark";
+  import { contracts } from "$lib/svark";
+  import { strategyTuple } from "$lib/utils/strategyTuple";
   import strats from "$lib/stores/strats";
-  import metamask from "$lib/stores/metamask";
 
   export let assets: typeof bestOptions;
 
@@ -14,6 +15,8 @@
   $: valid = total === 100;
 
   let assetData: any[] = [];
+
+  $: treasuryContract = $contracts.treasury;
 
   onMount(async () => {
     const data = await Promise.all(
@@ -42,14 +45,20 @@
   }
 
   async function handleSubmit() {
-    await $metamask.signMessage("Create new strategy");
+    const strategy = strategyTuple(assets);
+
+    const tuple = strategy.map(BigNumber.from);
+
+    const stratData = await $treasuryContract.createStrategy(tuple);
+
+    console.log(stratData);
 
     strats.update((st) => [
       ...st,
       {
         id: genId().toString(),
-        submittedBy: $account.address,
-        data: assets,
+        submittedBy: stratData.from,
+        data: strategy,
       },
     ]);
 
@@ -120,7 +129,7 @@
       {/if}
       <Button
         type="submit"
-        color="lightGreen">Submit</Button
+        color="lightGreen">Create strategy</Button
       >
     </div>
   </div>
