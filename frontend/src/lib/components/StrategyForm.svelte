@@ -8,6 +8,7 @@
   import { contracts } from "$lib/svark";
   import { strategyTuple } from "$lib/utils/strategyTuple";
   import strats from "$lib/stores/strats";
+  import { genId } from "$lib/utils/genId";
 
   export let assets: typeof bestOptions;
 
@@ -40,10 +41,6 @@
     assetData = data;
   });
 
-  function genId() {
-    return Number($strats[$strats.length - 1]?.id || 0) + 1;
-  }
-
   async function handleSubmit() {
     const strategy = strategyTuple(assets);
 
@@ -56,7 +53,7 @@
     strats.update((st) => [
       ...st,
       {
-        id: genId().toString(),
+        id: genId($strats, "id").toString(),
         submittedBy: stratData.from,
         data: strategy,
       },

@@ -1,40 +1,81 @@
 import { get, writable } from "svelte/store";
 import { contracts } from "$lib/svark/";
+import { genId } from "$lib/utils/genId";
 
 export const initialState = [
   {
-    proposal_id: 1,
-    strategy_id: 3,
-    finished: 0,
-    vote_list: [0],
+    proposalId: "1",
+    strategyId: "3",
+    finished: "0",
+    voteList: ["0", "0", "0", "0", "0", "0", "0", "0"],
+  },
+  // {
+  //   proposalId: 2,
+  //   strategyId: 3,
+  //   finished: 0,
+  //   voteList: [0, 0, 0, 0, 0, 0, 0, 0],
+  // },
+  {
+    proposalId: "3",
+    strategyId: "4",
+    finished: "0",
+    voteList: ["0", "0", "0", "0", "0", "0", "0", "0"],
   },
   {
-    proposal_id: 3,
-    strategy_id: 4,
-    finished: 0,
-    vote_list: [0],
+    proposalId: "3",
+    strategyId: "5",
+    finished: "0",
+    voteList: ["0", "0", "0", "0", "0", "0", "0", "0"],
   },
 ];
 
 export type Proposal = typeof initialState[0];
 
-function createProposals() {
-  const { subscribe, set } = writable<Proposal[]>(initialState);
+function proposalsStore() {
+  const starknetContract = get(contracts).starknet;
 
-  async function vote(propId: number) {
-    const starknetContract = get(contracts).starknet;
+  const { subscribe, update } = writable<Proposal[]>(initialState);
 
-    await get(starknetContract).vote(propId, 1);
-    // {code: 'TRANSACTION_RECEIVED', transaction_hash: '0x7307643282d51a46ea88b561809d0f018f79d8c788cbea9bc53f0c5d12a94c8'}
+  async function vote(propId: string) {
+    const { transaction_hash: hash } = await get(starknetContract).vote(
+      propId,
+      1
+    );
+
+    if (hash) {
+      update((st) =>
+        st.map((proposal) =>
+          proposal.proposalId === propId
+            ? { ...proposal, vote_list: [...proposal.voteList, 1] }
+            : proposal
+        )
+      );
+    }
+  }
+
+  async function createProposal(strategyId: string) {
+    const tx = await get(starknetContract).create_proposal(strategyId);
+
+    if (!tx) return;
+
+    update((proposals: Proposal[]) => [
+      ...proposals,
+      {
+        proposalId: genId(proposals, "proposalId").toString(),
+        strategyId,
+        finished: "0",
+        voteList: ["0", "0", "0", "0", "0", "0", "0", "0"],
+      },
+    ]);
   }
 
   return {
     subscribe,
-    set,
     vote,
+    createProposal,
   };
 }
 
-const proposals = createProposals();
+const proposals = proposalsStore();
 
 export default proposals;

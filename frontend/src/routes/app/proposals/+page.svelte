@@ -4,7 +4,7 @@
   import Hand from "$lib/components/icons/Hand.svelte";
   import proposals from "$lib/stores/proposals";
 
-  function vote(ev: MouseEvent, propId: number) {
+  function vote(ev: MouseEvent, propId: string) {
     ev.preventDefault();
 
     proposals.vote(propId);
@@ -16,17 +16,17 @@
 </div>
 
 <div class="flex flex-col gap-5 mt-6">
-  {#each $proposals as { strategy_id, finished, vote_list, proposal_id } (proposal_id)}
+  {#each $proposals as { strategyId, finished, voteList, proposalId } (proposalId)}
     <Card color="white">
       <a
-        href="/app/proposals/{proposal_id}"
+        href="/app/proposals/{proposalId}"
         class="w-full"
       >
         <div class="w-full flex justify-between">
           <div>
-            <h3>Proposal #{proposal_id}</h3>
+            <h3>Proposal #{proposalId}</h3>
             <p class="mb-3">
-              Strategy #{strategy_id}
+              Strategy #{strategyId}
               <span>by author</span>
             </p>
 
@@ -39,7 +39,7 @@
             <Button
               class="py-2 w-32 flex justify-start gap-4 mb-3"
               disabled={!!finished}
-              on:click={(ev) => vote(ev, proposal_id)}
+              on:click={(ev) => vote(ev, proposalId)}
             >
               <Hand
                 class="w-5 h-8"
@@ -48,7 +48,7 @@
               <h4 class="uppercase">Vote</h4>
             </Button>
             <span>
-              {vote_list.reduce((acc, curr) => acc + curr, 0)} / 8
+              {voteList.reduce((acc, curr) => acc + Number(curr), 0)} / 8
             </span>
           </div>
         </div>

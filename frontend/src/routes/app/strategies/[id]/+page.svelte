@@ -2,6 +2,7 @@
   import Button from "$lib/components/Button.svelte";
   import StratPieChart from "$lib/components/StratPieChart.svelte";
   import { contracts } from "$lib/svark";
+  import proposals from "$lib/stores/proposals";
   import truncateAddress from "$lib/utils/truncateAddress";
 
   export let data: any;
@@ -12,12 +13,6 @@
     name: ["rocket pool", "euler", "uniswap"][idx],
     val: amount,
   }));
-
-  async function handleClick() {
-    const proposalData = await $starknetContract.create_proposal(data.id);
-
-    console.log(proposalData);
-  }
 </script>
 
 <h3>Strategy #{data.id}</h3>
@@ -30,7 +25,7 @@
   color="lightGreen"
   type="button"
   disabled={!$starknetContract}
-  on:click={handleClick}
+  on:click={() => proposals.createProposal(data.id)}
 >
   {$starknetContract
     ? "Propose this strategy"

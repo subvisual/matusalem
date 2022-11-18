@@ -32,7 +32,7 @@
 </Button>
 <div class="flex justify-between gap-8">
   <article>
-    <h2 class="mb-2">Proposal #{proposal.proposal_id}</h2>
+    <h2 class="mb-2">Proposal #{proposal.proposalId}</h2>
     <div class="flex justify-between mb-14">
       <p>by author</p>
       <div class="w-32 bg-lightGreen">
@@ -49,7 +49,7 @@
       <Button
         class="py-2 w-32 flex justify-start gap-4 mb-3"
         color="white"
-        on:click={() => proposals.vote(proposal.proposal_id)}
+        on:click={() => proposals.vote(proposal.proposalId)}
       >
         <Hand
           class="w-5 h-8"
@@ -58,7 +58,7 @@
         <h4 class="uppercase">Vote</h4>
       </Button>
       <span>
-        {proposal.vote_list.reduce((acc, curr) => acc + curr, 0)} / 8
+        {proposal.voteList.reduce((acc, curr) => acc + Number(curr), 0)} / 8
       </span>
     </div>
   </Card>

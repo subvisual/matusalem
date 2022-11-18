@@ -4,12 +4,10 @@ import proposals, { type Proposal } from "$lib/stores/proposals";
 import strats from "$lib/stores/strats";
 
 export function load({ params: { id } }: { params: { id: string } }) {
-  const data = get(proposals).find(
-    (item: Proposal) => item.proposal_id === Number(id)
-  );
+  const data = get(proposals).find((item: Proposal) => item.proposalId === id);
 
   const strategy = get(strats).find(
-    (strat) => Number(strat.id) === data?.strategy_id
+    (strat) => Number(strat.id) === data?.strategyId
   );
 
   if (data) {
