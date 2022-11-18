@@ -1,7 +1,7 @@
 type Allocation = { name: string; val: number };
 type Strategy = number[];
 
-export function strategyTuple(data: Allocation[]) {
+export function reduceStrategy(data: Allocation[]) {
   return data.reduce(
     (acc: Strategy, curr: Allocation) => {
       switch (curr.name) {

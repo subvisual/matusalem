@@ -22,7 +22,7 @@ export const initialState = [
     voteList: ["0", "0", "0", "0", "0", "0", "0", "0"],
   },
   {
-    proposalId: "3",
+    proposalId: "4",
     strategyId: "5",
     finished: "0",
     voteList: ["0", "0", "0", "0", "0", "0", "0", "0"],

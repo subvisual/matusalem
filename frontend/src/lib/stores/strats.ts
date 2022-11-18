@@ -1,4 +1,8 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
+import { BigNumber } from "ethers";
+import { contracts } from "$lib/svark";
+import { reduceStrategy } from "$lib/utils/strategyTuple";
+import { genId } from "$lib/utils/genId";
 
 export const initialState = [
   {
@@ -31,61 +35,68 @@ export const initialState = [
     submittedBy: "0xD75004941Dd01B737f04D2C5c94AE16AC32032eF",
     data: [90, 5, 5],
   },
-  // {
-  //   id: "1",
-  //   submittedBy:
-  //     "0x054478333586193D177413591900B73AB73dC2F6552e9cD3006f61EC75B2CC2f",
-  //   data: [
-  //     {
-  //       name: "rocket pool",
-  //       val: 60,
-  //     },
-  //     {
-  //       name: "euler",
-  //       val: 22,
-  //     },
-  //     {
-  //       name: "uniswap",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "wrapped-bitcoin",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "maker",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "filecoin",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "aave",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "curve-dao-token",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "nexo",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "the-graph",
-  //       val: 2,
-  //     },
-  //     {
-  //       name: "sandclock",
-  //       val: 2,
-  //     },
-  //   ],
-  // },
+  {
+    id: "7",
+    submittedBy: "0xAf4f3BDe74e49dDF63Dee2a5Df05687e67553D3f",
+    data: [68, 14, 18],
+  },
+  {
+    id: "8",
+    submittedBy: "0xAf4f3BDe74e49dDF63Dee2a5Df05687e67553D3f",
+    data: [68, 14, 18],
+  },
 ];
 
 export type Strategy = typeof initialState[0];
 
-const strats = writable<Strategy[]>(initialState);
+function strategiesStore() {
+  const treasuryContract = get(contracts).treasury;
+
+  const { subscribe, update } = writable<Strategy[]>(initialState);
+
+  async function createStrategy(
+    assets: {
+      name: string;
+      val: number;
+    }[]
+  ) {
+    const strategy = reduceStrategy(assets);
+
+    const tuple = strategy.map(BigNumber.from);
+
+    const { from } = await get(treasuryContract).createStrategy(tuple);
+
+    if (!from) return;
+
+    update((strategies: Strategy[]) => [
+      ...strategies,
+      {
+        id: genId(strategies, "id").toString(),
+        submittedBy: from,
+        data: strategy,
+      },
+    ]);
+  }
+
+  function getStrategyAuthor(id: string) {
+    let strategy: Strategy | undefined;
+
+    subscribe((strategies) => {
+      strategy = strategies.find((strat) => strat.id === id);
+    });
+
+    if (!strategy) return "unknown";
+
+    return strategy.submittedBy;
+  }
+
+  return {
+    subscribe,
+    createStrategy,
+    getStrategyAuthor,
+  };
+}
+
+const strats = strategiesStore();
 
 export default strats;

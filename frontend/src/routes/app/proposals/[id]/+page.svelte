@@ -7,6 +7,8 @@
   import proposals from "$lib/stores/proposals";
   import type { Strategy } from "$lib/stores/strats";
   import StratPieChart from "$lib/components/StratPieChart.svelte";
+  import strats from "$lib/stores/strats";
+  import truncateAddress from "$lib/utils/truncateAddress";
 
   export let data: any;
 
@@ -41,6 +43,7 @@
     </div>
     <div class="mb-10">
       <h3>Strategy #{strategy.id}</h3>
+      <span>by {truncateAddress(strats.getStrategyAuthor(strategy.id))}</span>
     </div>
     <StratPieChart {assets} />
   </article>

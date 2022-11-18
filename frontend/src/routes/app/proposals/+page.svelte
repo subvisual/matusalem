@@ -3,10 +3,11 @@
   import Card from "$lib/components/Card.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
   import proposals from "$lib/stores/proposals";
+  import strats from "$lib/stores/strats";
+  import truncateAddress from "$lib/utils/truncateAddress";
 
   function vote(ev: MouseEvent, propId: string) {
     ev.preventDefault();
-
     proposals.vote(propId);
   }
 </script>
@@ -27,18 +28,26 @@
             <h3>Proposal #{proposalId}</h3>
             <p class="mb-3">
               Strategy #{strategyId}
-              <span>by author</span>
+              <span
+                >by {truncateAddress(
+                  strats.getStrategyAuthor(strategyId)
+                )}</span
+              >
             </p>
 
-            <div class="w-32 {finished ? 'bg-orange' : 'bg-lightGreen'}">
-              <h4 class="text-center">{finished ? "closed" : "active"}</h4>
+            <div
+              class="w-32 {Number(finished) ? 'bg-orange' : 'bg-lightGreen'}"
+            >
+              <h4 class="text-center"
+                >{Number(finished) ? "closed" : "active"}</h4
+              >
             </div>
           </div>
 
           <div class="flex flex-col items-center justify-center">
             <Button
               class="py-2 w-32 flex justify-start gap-4 mb-3"
-              disabled={!!finished}
+              disabled={!!Number(finished)}
               on:click={(ev) => vote(ev, proposalId)}
             >
               <Hand
