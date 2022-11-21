@@ -15,10 +15,12 @@
   const { proposal, strategy }: { proposal: Proposal; strategy: Strategy } =
     data;
 
-  const assets = strategy.data.map((amount: number, idx: number) => ({
-    name: ["rocket pool", "euler", "uniswap"][idx],
-    val: amount,
-  }));
+  const assets =
+    strategy.assets ||
+    strategy.data.map((amount: number, idx: number) => ({
+      name: ["rocket pool", "euler", "uniswap"][idx],
+      val: amount,
+    }));
 </script>
 
 <Button

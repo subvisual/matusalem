@@ -47,7 +47,12 @@ export const initialState = [
   },
 ];
 
-export type Strategy = typeof initialState[0];
+export type Strategy = {
+  id: string;
+  submittedBy: string;
+  data: number[];
+  assets?: { name: string; val: number }[];
+};
 
 function strategiesStore() {
   const treasuryContract = get(contracts).treasury;
@@ -74,6 +79,7 @@ function strategiesStore() {
         id: genId(strategies, "id").toString(),
         submittedBy: from,
         data: strategy,
+        assets,
       },
     ]);
   }

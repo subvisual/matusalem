@@ -10,10 +10,12 @@
 
   $: starknetContract = $contracts.starknet;
 
-  const assets = data.data.map((amount: number, idx: number) => ({
-    name: ["rocket pool", "euler", "uniswap"][idx],
-    val: amount,
-  }));
+  const assets =
+    data.assets ||
+    data.data.map((amount: number, idx: number) => ({
+      name: ["rocket pool", "euler", "uniswap"][idx],
+      val: amount,
+    }));
 </script>
 
 <Button
