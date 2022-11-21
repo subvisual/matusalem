@@ -28,19 +28,17 @@
             <h3>Proposal #{proposalId}</h3>
             <p class="mb-3">
               Strategy #{strategyId}
-              <span
-                >by {truncateAddress(
-                  strats.getStrategyAuthor(strategyId)
-                )}</span
-              >
+              <span>
+                by {truncateAddress(strats.getStrategyAuthor(strategyId))}
+              </span>
             </p>
 
             <div
               class="w-32 {Number(finished) ? 'bg-orange' : 'bg-lightGreen'}"
             >
-              <h4 class="text-center"
-                >{Number(finished) ? "closed" : "active"}</h4
-              >
+              <h4 class="text-center">
+                {Number(finished) ? "closed" : "active"}
+              </h4>
             </div>
           </div>
 

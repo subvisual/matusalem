@@ -42,7 +42,7 @@
     class="w-10 h-10"
     slot="leftIcon"
   />
-  <span class="text-14"
-    >{userAddress ? truncateAddress(userAddress) : "Connect to vote"}</span
-  >
+  <span class="text-14">
+    {userAddress ? truncateAddress(userAddress) : "Connect"}
+  </span>
 </button>

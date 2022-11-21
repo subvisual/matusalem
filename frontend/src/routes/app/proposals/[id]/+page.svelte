@@ -32,20 +32,19 @@
   />
   Back
 </Button>
-<div class="flex justify-between gap-8">
-  <article>
+<div class="flex justify-between gap-4">
+  <article class="w-4/5">
     <h2 class="mb-2">Proposal #{proposal.proposalId}</h2>
-    <div class="flex justify-between mb-14">
-      <p>by author</p>
-      <div class="w-32 bg-lightGreen">
-        <h4 class="text-center">active</h4>
+    <div class="w-32 bg-lightGreen">
+      <h4 class="text-center">active</h4>
+    </div>
+    <div class="mx-auto w-2/5 text-center">
+      <div class="mb-4">
+        <h3>Strategy #{strategy.id}</h3>
+        <p>by {truncateAddress(strats.getStrategyAuthor(strategy.id))}</p>
       </div>
+      <StratPieChart {assets} />
     </div>
-    <div class="mb-10">
-      <h3>Strategy #{strategy.id}</h3>
-      <span>by {truncateAddress(strats.getStrategyAuthor(strategy.id))}</span>
-    </div>
-    <StratPieChart {assets} />
   </article>
   <Card color="lightGreen">
     <div class="flex flex-col gap-4 items-center">

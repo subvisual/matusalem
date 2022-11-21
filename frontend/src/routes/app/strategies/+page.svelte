@@ -5,10 +5,14 @@
   import Card from "$lib/components/Card.svelte";
   import metamask from "$lib/stores/metamask";
   import truncateAddress from "$lib/utils/truncateAddress";
+  import MetaMaskConnect from "$lib/components/MetaMaskConnect.svelte";
 </script>
 
 <div>
-  <h2 class="mb-10">Strategies</h2>
+  <div class="flex justify-between items-baseline">
+    <h2 class="mb-10">Strategies</h2>
+    <MetaMaskConnect />
+  </div>
 
   {#if $metamask}
     <Button

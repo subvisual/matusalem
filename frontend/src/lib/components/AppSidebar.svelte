@@ -25,17 +25,6 @@
     <Button
       color="white"
       class="mb-6 nav-link"
-      href="/app/proposals"
-    >
-      <Proposal
-        slot="leftIcon"
-        class="fill-black"
-      />
-      Proposals
-    </Button>
-    <Button
-      color="white"
-      class="mb-6 nav-link"
       href="/app/strategies"
     >
       <Mind
@@ -43,6 +32,17 @@
         class="fill-black"
       />
       Strategies
+    </Button>
+    <Button
+      color="white"
+      class="mb-6 nav-link"
+      href="/app/proposals"
+    >
+      <Proposal
+        slot="leftIcon"
+        class="fill-black"
+      />
+      Proposals
     </Button>
     <Button
       color="white"
