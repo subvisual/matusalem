@@ -44,6 +44,52 @@ export const initialState = [
     id: "8",
     submittedBy: "0xAf4f3BDe74e49dDF63Dee2a5Df05687e67553D3f",
     data: [68, 14, 18],
+    assets: [
+      {
+        name: "rocket pool",
+        val: 70,
+      },
+      {
+        name: "euler",
+        val: 12,
+      },
+      {
+        name: "uniswap",
+        val: 2,
+      },
+      {
+        name: "wrapped-bitcoin",
+        val: 2,
+      },
+      {
+        name: "maker",
+        val: 2,
+      },
+      {
+        name: "filecoin",
+        val: 2,
+      },
+      {
+        name: "aave",
+        val: 2,
+      },
+      {
+        name: "curve-dao-token",
+        val: 2,
+      },
+      {
+        name: "nexo",
+        val: 2,
+      },
+      {
+        name: "the-graph",
+        val: 2,
+      },
+      {
+        name: "sandclock",
+        val: 2,
+      },
+    ],
   },
 ];
 

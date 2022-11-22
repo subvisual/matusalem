@@ -9,7 +9,7 @@ export function reduceStrategy(data: Allocation[]) {
           return [curr.val, ...acc.slice(0, 2)];
 
         case "euler":
-          return [acc[0], curr.val, ...acc.slice(1, 2)];
+          return [acc[0], curr.val, acc[1]];
 
         default:
           return [acc[0], acc[1], acc[2] + curr.val];
