@@ -36,7 +36,7 @@
   });
 
   async function handleSubmit() {
-    strats.createStrategy(assets);
+    await strats.createStrategy(assets);
     goto("/app/strategies");
   }
 </script>

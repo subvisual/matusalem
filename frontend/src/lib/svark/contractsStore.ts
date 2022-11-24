@@ -7,18 +7,14 @@ import _baseStore from "./_baseStore";
 
 // Store of all contract stores. Subscribes to account changes
 
-type ContractsStoreType = Record<
-  string,
-  Writable<StarknetContract | EthersContract>
->;
+export type Contract = StarknetContract | EthersContract;
+
+type ContractsStoreType = Record<string, Writable<Contract>>;
 
 export const store = writable<ContractsStoreType>({});
 
 const contractsStore = _baseStore(store, ({ _set, subscribe }) => {
-  function addContract(
-    name: string,
-    contract: Writable<StarknetContract | EthersContract>
-  ) {
+  function addContract(name: string, contract: Writable<Contract>) {
     if (!get(store)[name]) {
       _set({
         [name]: contract,

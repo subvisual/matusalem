@@ -1,8 +1,10 @@
 import { get, writable } from "svelte/store";
+import type { Writable } from "svelte/store";
 import { BigNumber } from "ethers";
 import { contracts } from "$lib/svark";
 import { reduceStrategy } from "$lib/utils/strategyTuple";
 import { genId } from "$lib/utils/genId";
+import type { Contract } from "$lib/svark/contractsStore";
 
 export const initialState = [
   {
@@ -101,9 +103,11 @@ export type Strategy = {
 };
 
 function strategiesStore() {
-  const treasuryContract = get(contracts).treasury;
-
   const { subscribe, update } = writable<Strategy[]>(initialState);
+
+  let treasuryContract: Writable<Contract>;
+
+  contracts.subscribe((value) => (treasuryContract = value.treasury));
 
   async function createStrategy(
     assets: {
