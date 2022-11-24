@@ -11,9 +11,9 @@
   const starknetContract = $contracts.starknet;
 
   async function deposit() {
-    $starknetContract.monthly_deposit(
-      parseInputAmountToUint256(amount.toString())
-    );
+    await $starknetContract.monthly_deposit(parseInputAmountToUint256("0"));
+
+    balance.set(amount);
   }
 </script>
 
