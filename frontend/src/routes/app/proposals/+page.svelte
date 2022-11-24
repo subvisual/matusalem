@@ -3,10 +3,11 @@
   import Card from "$lib/components/Card.svelte";
   import Hand from "$lib/components/icons/Hand.svelte";
   import proposals from "$lib/stores/proposals";
+  import strats from "$lib/stores/strats";
+  import truncateAddress from "$lib/utils/truncateAddress";
 
-  function vote(ev: MouseEvent, propId: number) {
+  function vote(ev: MouseEvent, propId: string) {
     ev.preventDefault();
-
     proposals.vote(propId);
   }
 </script>
@@ -16,30 +17,36 @@
 </div>
 
 <div class="flex flex-col gap-5 mt-6">
-  {#each $proposals as { strategy_id, finished, vote_list, proposal_id } (proposal_id)}
+  {#each $proposals as { strategyId, finished, voteList, proposalId } (proposalId)}
     <Card color="white">
       <a
-        href="/app/proposals/{proposal_id}"
+        href="/app/proposals/{proposalId}"
         class="w-full"
       >
         <div class="w-full flex justify-between">
           <div>
-            <h3>Proposal #{proposal_id}</h3>
+            <h3>Proposal #{proposalId}</h3>
             <p class="mb-3">
-              Strategy #{strategy_id}
-              <span>by author</span>
+              Strategy #{strategyId}
+              <span>
+                by {truncateAddress(strats.getStrategyAuthor(strategyId))}
+              </span>
             </p>
 
-            <div class="w-32 {finished ? 'bg-orange' : 'bg-lightGreen'}">
-              <h4 class="text-center">{finished ? "closed" : "active"}</h4>
+            <div
+              class="w-32 {Number(finished) ? 'bg-orange' : 'bg-lightGreen'}"
+            >
+              <h4 class="text-center">
+                {Number(finished) ? "closed" : "active"}
+              </h4>
             </div>
           </div>
 
           <div class="flex flex-col items-center justify-center">
             <Button
               class="py-2 w-32 flex justify-start gap-4 mb-3"
-              disabled={!!finished}
-              on:click={(ev) => vote(ev, proposal_id)}
+              disabled={!!Number(finished)}
+              on:click={(ev) => vote(ev, proposalId)}
             >
               <Hand
                 class="w-5 h-8"
@@ -48,7 +55,7 @@
               <h4 class="uppercase">Vote</h4>
             </Button>
             <span>
-              {vote_list.reduce((acc, curr) => acc + curr, 0)} / 8
+              {voteList.reduce((acc, curr) => acc + Number(curr), 0)} / 8
             </span>
           </div>
         </div>
